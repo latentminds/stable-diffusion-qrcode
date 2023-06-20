@@ -1,0 +1,31 @@
+global:
+    prompt: "a beautiful landscape"
+    model_name_or_path_or_api_name: "hash"
+    steps: 20
+    sampler: Euler a
+    width: 512
+    height: 512
+    seed: -1
+
+controlnet_units:
+    - unit1:
+          module: none
+          model: None
+          weight: 0.5
+          start: 0.1
+          end: 0.9
+
+    - unit2:
+          module: none
+          model: None
+          weight: 0.5
+          start: 0.1
+          end: 0.9
+
+qrcode:
+    text: "https://koll.ai"
+    error_correction: high # [low, medium, quart, high]
+    box_size: 10
+    border: 4
+    fill_color: black
+    back_color: white

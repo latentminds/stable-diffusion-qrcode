@@ -1,0 +1,3 @@
+webuiapi
+qrcode[pil]
+pyyaml
