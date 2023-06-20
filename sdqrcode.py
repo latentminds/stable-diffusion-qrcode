@@ -1,6 +1,7 @@
 import webuiapi
 import qrcode
 import yaml
+import PIL
 
 
 # Backend enum, one of auto_api, diffusers
@@ -10,7 +11,8 @@ class constants:
 
 
 class Engine:
-    def __init__(self, backend_type: constants):
+    def __init__(self, backend_type: constants, config: dict = None):
+        self.config = config
         self.type = backend_type
 
     def init_engine(
@@ -68,7 +70,7 @@ class Engine:
         https: bool = False,
         username: str = "",
         password: str = "",
-    ):
+    ) -> webuiapi.WebUIApi:
         """
         Args:
             hostname: Hostname of the Automatic1111 server
@@ -89,11 +91,11 @@ class Engine:
 
         return auto_api
 
-    def generate_sd_qrcode(self):
+    def generate_sd_qrcode(self) -> PIL.Image.Image:
         if self.backend == constants.AUTO_API:
             return self.generate_sd_qrcode_auto_api()
 
-    def generate_sd_qrcode_auto_api(self, qr_code_img):
+    def generate_sd_qrcode_auto_api(self, qr_code_img) -> PIL.Image.Image:
         cn_units = []
         for unit in self.config["controlnet_units"]:
             cn_unit = webuiapi.ControlNetUnit(
@@ -167,21 +169,82 @@ class sdqrcode:
 
         self.config = {**default_config, **custom_config}
 
-    def generate_qrcode_img(self):
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=self.config["qr_code"]["error_correction"],
-            box_size=self.config["qr_code"]["box_size"],
-            border=self.config["qr_code"]["border"],
-        )
-        qr.add_data(self.config["qr_code"]["text"])
-        qr.make(fit=True)
-        qr_img = qr.make_image(
-            fill_color=self.config["qr_code"]["fill_color"],
-            back_color=self.config["qr_code"]["back_color"],
-        )
 
-        # convert to pil
-        qr_img = qr_img.convert("RGB")
+def get_config(config_name_or_path: str = "./configs/default.yaml") -> dict:
+    default_yaml_path = "./configs/default.yaml"
+    custom_yaml_path = config_name_or_path
 
-        return qr_img
+    with open(default_yaml_path, "r") as f:
+        default_config = yaml.load(f)
+    with open(custom_yaml_path, "r") as f:
+        custom_config = yaml.load(f)
+
+    config = {**default_config, **custom_config}
+
+    return config
+
+
+def generate_sd_qrcode(
+    config_name_or_path: str = "./configs/default.yaml",
+    auto_api_hostname: str = "",
+    auto_api_port: int = 7860,
+    auto_api_https: bool = True,
+    auto_api_username: str = "",
+    auto_api_password: str = "",
+    # TODO: add all the yaml args here
+) -> PIL.Image.Image:
+    sdqrcode = sdqrcode(
+        config_name_or_path=config_name_or_path,
+        auto_api_hostname=auto_api_hostname,
+        auto_api_port=auto_api_port,
+        auto_api_https=auto_api_https,
+        auto_api_username=auto_api_username,
+        auto_api_password=auto_api_password,
+    )
+    error_name_to_enum = {
+        "low": qrcode.constants.ERROR_CORRECT_L,
+        "medium": qrcode.constants.ERROR_CORRECT_M,
+        "quartile": qrcode.constants.ERROR_CORRECT_Q,
+        "high": qrcode.constants.ERROR_CORRECT_H,
+    }
+
+    qr_img = generate_qrcode_img(
+        error_correction=error_name_to_enum[
+            sdqrcode.config["global"]["error_correction"]
+        ],
+        box_size=sdqrcode.config["global"]["box_size"],
+        border=sdqrcode.config["global"]["border"],
+        fill_color=sdqrcode.config["global"]["fill_color"],
+        back_color=sdqrcode.config["global"]["back_color"],
+        text=sdqrcode.config["global"]["text"],
+    )
+    sd_qr_img = sdqrcode.engine.generate_sd_qrcode(qr_img)
+
+    return sd_qr_img
+
+
+def generate_qrcode_img(
+    error_correction: int = qrcode.constants.ERROR_CORRECT_L,
+    box_size: int = 10,
+    border: int = 4,
+    fill_color: str = "black",
+    back_color: str = "white",
+    text: str = "https://koll.ai",
+) -> PIL.Image.Image:
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=error_correction,
+        box_size=box_size,
+        border=border,
+    )
+    qr.add_data(text)
+    qr.make(fit=True)
+    qr_img = qr.make_image(
+        fill_color=fill_color,
+        back_color=back_color,
+    )
+
+    # convert to pil
+    qr_img = qr_img.convert("RGB")
+
+    return qr_img
