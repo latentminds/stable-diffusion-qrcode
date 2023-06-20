@@ -1,3 +1,4 @@
 .vscode/settings.json
 .env
 tests/*
+colabs/automatic_engine.ipynb

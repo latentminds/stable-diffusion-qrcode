@@ -1,26 +1,25 @@
 global:
     prompt: "a beautiful landscape"
-    model_name_or_path_or_api_name: "hash"
+    model_name_or_path_or_api_name: "6ce0161689"
     steps: 20
-    sampler: Euler a
+    sampler_name: Euler a
+    cfg_scale: 7
     width: 512
     height: 512
     seed: -1
 
 controlnet_units:
-    - unit1:
-          module: none
-          model: None
-          weight: 0.5
-          start: 0.1
-          end: 0.9
+    - module: none
+      model: None
+      weight: 0.5
+      start: 0.1
+      end: 0.9
 
-    - unit2:
-          module: none
-          model: None
-          weight: 0.5
-          start: 0.1
-          end: 0.9
+    - module: none
+      model: None
+      weight: 0.5
+      start: 0.1
+      end: 0.9
 
 qrcode:
     text: "https://koll.ai"

@@ -38,10 +38,8 @@ class Engine:
         """
 
         self.backend = (
-            constants.AUTO_API if auto_api_hostname is not None else constants.DIFFUSERS
+            constants.AUTO_API if auto_api_hostname != "" else constants.DIFFUSERS
         )
-
-        self.api_or_pipeline = self.init_engine_from_backend(self.backend)
 
         if self.backend == constants.AUTO_API:
             return self.init_backend_automatic(
@@ -70,7 +68,7 @@ class Engine:
         https: bool = False,
         username: str = "",
         password: str = "",
-    ) -> webuiapi.WebUIApi:
+    ):
         """
         Args:
             hostname: Hostname of the Automatic1111 server
@@ -81,21 +79,26 @@ class Engine:
         """
         port = 443 if https else port
 
-        auto_api = webuiapi.WebUIApi(
+        self.api_or_pipeline = webuiapi.WebUIApi(
             hostname, username=username, password=password, port=port, use_https=https
         )
 
-        print("stable diffusion models", self.auto_api.get_sd_models())
-        print("available controlnet models", self.auto_api.controlnet_model_list())
-        print("available controlnet modules", self.auto_api.controlnet_module_list())
-
-        return auto_api
+        print("stable diffusion models", self.api_or_pipeline.get_sd_models())
+        print(
+            "available controlnet models", self.api_or_pipeline.controlnet_model_list()
+        )
+        print(
+            "available controlnet modules",
+            self.api_or_pipeline.controlnet_module_list(),
+        )
 
     def generate_sd_qrcode(self) -> PIL.Image.Image:
         if self.backend == constants.AUTO_API:
             return self.generate_sd_qrcode_auto_api()
 
-    def generate_sd_qrcode_auto_api(self, qr_code_img) -> PIL.Image.Image:
+    def generate_sd_qrcode_auto_api(
+        self, qr_code_img, return_cn_imgs=False
+    ) -> PIL.Image.Image:
         cn_units = []
         for unit in self.config["controlnet_units"]:
             cn_unit = webuiapi.ControlNetUnit(
@@ -104,8 +107,8 @@ class Engine:
                 model=unit["model"],
                 pixel_perfect=True,
                 weight=unit["weight"],
-                guidance_start=unit["guidance_start"],
-                guidance_end=unit["guidance_end"],
+                guidance_start=unit["start"],
+                guidance_end=unit["end"],
             )
             cn_units.append(cn_unit)
 
@@ -119,8 +122,10 @@ class Engine:
             cfg_scale=self.config["global"]["cfg_scale"],
             controlnet_units=cn_units,
         )
-
-        return r.images[0 : -len(cn_units)]  # remove controlnet images
+        if return_cn_imgs:
+            return r.images
+        else:
+            return r.images[0 : -len(cn_units)]  # remove controlnet images
 
 
 class sdqrcode:
@@ -147,7 +152,7 @@ class sdqrcode:
 
         # Load backend
         self.backend = (
-            constants.AUTO_API if auto_api_hostname is not "" else constants.DIFFUSERS
+            constants.AUTO_API if auto_api_hostname != "" else constants.DIFFUSERS
         )
         self.engine = Engine(self.backend)
         self.engine.init_engine(
@@ -159,15 +164,8 @@ class sdqrcode:
         )
 
         # Load config
-        default_yaml_path = "./configs/default.yaml"
-        custom_yaml_path = config_name_or_path
 
-        with open(default_yaml_path, "r") as f:
-            default_config = yaml.load(f)
-        with open(custom_yaml_path, "r") as f:
-            custom_config = yaml.load(f)
-
-        self.config = {**default_config, **custom_config}
+        self.config = get_config(config_name_or_path)
 
 
 def get_config(config_name_or_path: str = "./configs/default.yaml") -> dict:
@@ -175,9 +173,9 @@ def get_config(config_name_or_path: str = "./configs/default.yaml") -> dict:
     custom_yaml_path = config_name_or_path
 
     with open(default_yaml_path, "r") as f:
-        default_config = yaml.load(f)
+        default_config = yaml.safe_load(f)
     with open(custom_yaml_path, "r") as f:
-        custom_config = yaml.load(f)
+        custom_config = yaml.safe_load(f)
 
     config = {**default_config, **custom_config}
 
