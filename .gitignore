@@ -3,3 +3,4 @@
 tests/*
 colabs/automatic_engine.ipynb
 colabs/automatic_engine.ipynb
+*.pyc
