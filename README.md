@@ -1,7 +1,8 @@
+
 # Stable Diffusion QR Code
 alpha version
 
-call automatic1111 webui to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770)
+call [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770)
 
 # tldr
 **Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/demo_sdqrcode.ipynb">
@@ -13,7 +14,7 @@ There is multiple methodes availables to generate ai qr code with differents con
 This repo aims to easily try and evaluate differents methods, models, params and share them with a simple config file 
 
 # Exemple
-(cherry picked)
+(cherry picked, will add more results later)
 ![file (4)](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305)
 
 # Install
@@ -39,41 +40,41 @@ sd_qr_code = sdqrcode.generate_sd_qrcode(
 This lib uses a yaml file to describe the qrcode generation process. Exemple:
 ``` yaml
 global:
-  prompt: "a beautiful landscape"
-  model_name_or_path_or_api_name: "6ce0161689"
-  steps: 20
-  sampler_name: Euler a
-  cfg_scale: 7
-  width: 512
-  height: 512
-  seed: -1
+    prompt: "a beautiful landscape"
+    model_name_or_path_or_api_name: "6ce0161689"
+    steps: 20
+    sampler_name: Euler a
+    cfg_scale: 7
+    width: 512
+    height: 512
+    seed: -1
 
 controlnet_units:
-  - module: inpaint
-    model: control_v1p_sd15_brightness [5f6aa6ed]
-    weight: 0.35
-    start: 0.0
-    end: 1.0
+    - module: inpaint
+      model: control_v1p_sd15_brightness [5f6aa6ed]
+      weight: 0.5
+      start: 0.1
+      end: 0.9
 
-  - module: inpaint
-    model: control_v11f1e_sd15_tile [a371b31b]
-    weight: 0.5
-    start: 0.35
-    end: 0.70
+    - module: inpaint
+      model: control_v11f1e_sd15_tile [a371b31b]
+      weight: 0.5
+      start: 0.1
+      end: 0.9
 
 qrcode:
-  text: "https://koll.ai"
-  error_correction: high # [low, medium, quart, high]
-  box_size: 10
-  border: 4
-  fill_color: black
-  back_color: white
+    text: "https://koll.ai"
+    error_correction: high # [low, medium, quart, high]
+    box_size: 10
+    border: 4
+    fill_color: black
+    back_color: white
 ```
 
 # Available configs:
 ## ./configs/default.yaml
-This method seem to be the best for me, I use it with the model realistic_visionV2.
-It uses [https://huggingface.co/ioclab/control_v1p_sd15_brightness](Controlnet Brightness)] and [https://huggingface.co/lllyasviel/control_v11f1e_sd15_tile](Controlnet Tile)
+This method seem to be the best for me, I use it with the model [realistic_visionV2](https://civitai.com/models/4201/realistic-vision-v20).
+It uses [Controlnet Brightness](https://huggingface.co/ioclab/control_v1p_sd15_brightness) and [Controlnet Tile](https://huggingface.co/lllyasviel/control_v11f1e_sd15_tile)
 Here are my firsts thoughts:
 * CN brightness should be left as is
 * You can play with CN tile parameters to get an image more or less "grid like"
