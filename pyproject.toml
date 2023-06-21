@@ -11,7 +11,7 @@ only-include = ["src/sdqrcode"]
 
 [project]
 name = "sdqrcode"
-version = "0.0.1"
+version = "0.0.3"
 authors = [
   { name="Philippe Saade", email="contactskollai@gmail.com" },
   { name="Ruben Gres", email="contactskollai@gmail.com" },
