@@ -16,10 +16,10 @@ pip install sdqrcode
 
 # Usage
 ```python
-import sdqrcode
+import sdqrcode.sdqrcode as sdqrcode
 
 # generate with default params
-sd_qr_code = generate_sd_qrcode(
+sd_qr_code = sdqrcode.generate_sd_qrcode(
             config_name_or_path="./configs/default.yaml",
             auto_api_hostname=os.getenv("AUTO_API_HOSTNAME"),
             auto_api_port=os.getenv("AUTO_API_PORT"),
