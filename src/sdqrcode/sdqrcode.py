@@ -2,6 +2,7 @@ import webuiapi
 import qrcode
 import yaml
 import PIL
+import os
 
 
 # Backend enum, one of auto_api, diffusers
@@ -133,6 +134,31 @@ class Sdqrcode:
             auto_api_username: Username for the Automatic1111 server (if any)
             auto_api_password: Password for the Automatic1111 server (if any)
         """
+
+        # check if variables are set in env
+        auto_api_hostname = (
+            os.getenv("AUTO_API_HOSTNAME", "")
+            if auto_api_hostname == ""
+            else auto_api_hostname
+        )
+        auto_api_port = (
+            os.getenv("AUTO_API_PORT", 7860) if auto_api_port == 7860 else auto_api_port
+        )
+        auto_api_https = (
+            os.getenv("AUTO_API_HTTPS", True)
+            if auto_api_https == True
+            else auto_api_https
+        )
+        auto_api_username = (
+            os.getenv("AUTO_API_USERNAME", "")
+            if auto_api_username == ""
+            else auto_api_username
+        )
+        auto_api_password = (
+            os.getenv("AUTO_API_PASSWORD", "")
+            if auto_api_password == ""
+            else auto_api_password
+        )
 
         # Load backend
         self.backend = (
