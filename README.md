@@ -7,6 +7,8 @@ call automatic1111 webui to generate qrcodes, will add a pure diffusers version 
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
+![file (4)](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305)
+
 # Install
 ```
 pip install sdqrcode
