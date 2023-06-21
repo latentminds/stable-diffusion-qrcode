@@ -8,9 +8,13 @@
 
 name: Upload Python Package
 
+# on:
+#   release:
+#     types: [published]
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - master
 
 permissions:
   contents: read
@@ -43,8 +47,8 @@ jobs:
     #     password: ${{ secrets.PYPI_API_TOKEN }}
     - name: Publish package
       run: |
-        python -m twine upload dist/*
-        
+        python -m twine upload dist/* --verbose
+
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
