@@ -1,4 +1,7 @@
 # Stable Diffusion QR Code
+unstable
+
+
 
 # build from source
 
