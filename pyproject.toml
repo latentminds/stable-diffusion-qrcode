@@ -8,7 +8,6 @@ only-include = ["src/sdqrcode"]
 [tool.hatch.build.targets.wheel.sources]
 "src" = ""
 
-
 [project]
 name = "sdqrcode"
 version = "0.0.1"
@@ -17,6 +16,7 @@ authors = [
   { name="Ruben Gres", email="contactskollai@gmail.com" },
 ]
 description = "Generate qr codes with stable diffusion and controlnet with standardised methods"
+
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
