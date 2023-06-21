@@ -8,6 +8,7 @@ only-include = ["src/sdqrcode"]
 [tool.hatch.build.targets.wheel.sources]
 "src" = ""
 
+
 [project]
 name = "sdqrcode"
 version = "0.0.1"
