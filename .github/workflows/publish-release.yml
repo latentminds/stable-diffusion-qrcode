@@ -32,6 +32,7 @@ jobs:
         pip install --upgrade build
         pip install build
         pip install --upgrade twine
+        pip install wheel
     - name: Build package
       run: |
         python -m build
