@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/sdqrcode"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+
+
+[project]
+name = "sdqrcode"
+version = "0.0.5"
+authors = [
+  { name="Philippe Saade", email="contactskollai@gmail.com" },
+  { name="Ruben Gres", email="contactskollai@gmail.com" },
+]
+description = "Generate ai qr codes with stable diffusion and controlnet with standardised methods"
+
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+  'PyYAML',
+  'webuiapi',
+  'qrcode[pil]',
+]
+
+[project.urls]
+"Homepage" = "https://github.com/koll-ai/stable-difusion-qrcode"
+"Bug Tracker" = "https://github.com/koll-ai/stable-difusion-qrcode/issues"
