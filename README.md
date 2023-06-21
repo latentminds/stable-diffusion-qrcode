@@ -40,36 +40,36 @@ sd_qr_code = sdqrcode.generate_sd_qrcode(
 This lib uses a yaml file to describe the qrcode generation process. Exemple:
 ``` yaml
 global:
-    prompt: "a beautiful landscape"
-    model_name_or_path_or_api_name: "6ce0161689"
-    steps: 20
-    sampler_name: Euler a
-    cfg_scale: 7
-    width: 512
-    height: 512
-    seed: -1
+  prompt: "a beautiful landscape"
+  model_name_or_path_or_api_name: "6ce0161689"
+  steps: 20
+  sampler_name: Euler a
+  cfg_scale: 7
+  width: 512
+  height: 512
+  seed: -1
 
 controlnet_units:
-    - module: inpaint
-      model: control_v1p_sd15_brightness [5f6aa6ed]
-      weight: 0.5
-      start: 0.1
-      end: 0.9
+  - module: none
+    model: control_v1p_sd15_brightness [5f6aa6ed]
+    weight: 0.35
+    start: 0.0
+    end: 1.0
 
-    - module: inpaint
-      model: control_v11f1e_sd15_tile [a371b31b]
-      weight: 0.5
-      start: 0.1
-      end: 0.9
+  - module: none
+    model: control_v11f1e_sd15_tile [a371b31b]
+    weight: 0.5
+    start: 0.35
+    end: 0.70
 
 qrcode:
-    text: "https://koll.ai"
-    error_correction: high # [low, medium, quart, high]
-    box_size: 10
-    border: 4
-    fill_color: black
-    back_color: white
-```
+  text: "https://koll.ai"
+  error_correction: high # [low, medium, quart, high]
+  box_size: 10
+  border: 4
+  fill_color: black
+  back_color: white
+  ```
 
 # Available configs:
 ## ./configs/default.yaml
