@@ -80,7 +80,6 @@ Here are my firsts thoughts:
 * You can play with CN tile parameters to get an image more or less "grid like"
 
 # Todos
-[] fix weird import
 [] add more configs
 [] allow to set the config without having the file in local path
 [] more tests
