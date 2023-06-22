@@ -1,6 +1,6 @@
 
 # Stable Diffusion QR Code
-alpha version
+alpha version, expect breaking changes
 
 call [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770)
 
