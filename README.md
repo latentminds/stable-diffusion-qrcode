@@ -41,7 +41,7 @@ This lib uses a yaml file to describe the qrcode generation process. Exemple:
 ``` yaml
 global:
   prompt: "a beautiful landscape"
-  model_name_or_path_or_api_name: "6ce0161689"
+#  model_name_or_path_or_api_name: "6ce0161689" (not implemented)
   steps: 20
   sampler_name: Euler a
   cfg_scale: 7
@@ -80,6 +80,7 @@ Here are my firsts thoughts:
 * You can play with CN tile parameters to get an image more or less "grid like"
 
 # Todos
+- [ ] allow to set the model in the config
 - [ ] add more configs
 - [ ] allow to set the config without having the file in local path
 - [ ] more tests
