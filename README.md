@@ -80,17 +80,12 @@ Here are my firsts thoughts:
 * You can play with CN tile parameters to get an image more or less "grid like"
 
 # Todos
-[ ] add more configs
-
-[ ] allow to set the config without having the file in local path
-
-[ ] more tests
-
-[ ] try to install the webui in demo colab
-
-[ ] add diffusers backend
-
-[ ] add docs
+- [] add more configs
+- [] allow to set the config without having the file in local path
+- [] more tests
+- [] try to install the webui in demo colab
+- [] add diffusers backend
+- [] add docs
 
 # Contrib
 Please don't hesitate to submit a PR to improve the code or submit a config
