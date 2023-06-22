@@ -24,7 +24,7 @@ pip install sdqrcode
 
 # Usage
 ```python
-import sdqrcode.sdqrcode as sdqrcode
+import sdqrcode
 
 # generate with default params
 sd_qr_code = sdqrcode.generate_sd_qrcode(
