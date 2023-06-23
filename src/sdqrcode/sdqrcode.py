@@ -3,6 +3,7 @@ import qrcode
 import yaml
 import PIL
 import os
+import pkg_resources
 
 
 # Backend enum, one of auto_api, diffusers
