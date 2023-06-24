@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sdqrcode"
-version = "0.1.0"
+version = "0.2.4"
 description = "Generate ai qr codes with stable diffusion and controlnet with standardised methods"
 authors = ["PhilSad <philippe.henri.saade@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 webuiapi = "^0.9.3"
-qrcode = {extras = ["pil"], version = "^7.4.2"}
+qrcode  = "^7.4.1"
+transformers = "4.30.0"
+accelerate = "^0.20.0"
 PyYAML = "^6.0"
 
 
