@@ -1,6 +1,6 @@
 webuiapi
 qrcode[pil]
 pyyaml
-diffusers @ git+https://github.com/holwech/diffusers/tree/main
+diffusers @ git+https://github.com/holwech/diffusers
 transformers==4.30.0
 accelerate

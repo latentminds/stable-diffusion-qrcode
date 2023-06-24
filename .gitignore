@@ -1,6 +1,6 @@
 .vscode/settings.json
 .env
-tests/imgs_test_results/*
+tests/imgs_test_results/*.png
 colabs/automatic_engine.ipynb
 colabs/automatic_engine.ipynb
 *.pyc
