@@ -4,7 +4,6 @@ def init_engine(**engine_kwargs):
         and engine_kwargs["hostname"] is not None
         and engine_kwargs["hostname"] != ""
     ):
-        import webuiapi
         from . import AutoEngine
 
         return AutoEngine.AutomaticEngine(**engine_kwargs)

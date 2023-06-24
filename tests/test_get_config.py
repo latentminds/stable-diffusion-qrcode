@@ -21,7 +21,7 @@ class TestGetConfig(unittest.TestCase):
         print(os.getcwd())
         print("aaaaaaaaaa")
         config = sdqrcode.get_config(
-            config_name_or_path="./tests/test_configs/default.yaml"
+            config_name_or_path="./tests/test_configs/default_auto.yaml"
         )
         print(config)
 
