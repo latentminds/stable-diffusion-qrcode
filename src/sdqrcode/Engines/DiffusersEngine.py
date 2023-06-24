@@ -47,7 +47,7 @@ class DiffusersEngine(Engine.Engine):
             num_inference_steps=self.config["global"]["steps"],
             image=[qr_code_img for _ in range(len(controlnet_weights))],
             controlnet_guidance=controlnet_startstops,
-            controlnet_guidance_scale=controlnet_weights,
+            controlnet_conditioning_scale=controlnet_weights,
         )
 
         return result.images[0]
