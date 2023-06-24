@@ -4,13 +4,13 @@ global:
   steps: 20
   # sampler_name: Euler a not implemented yet
   cfg_scale: 7
-  width: 768
-  height: 768
+  width: 512
+  height: 512
   seed: -1
 
 controlnet_units:
   brightness:
-    model_name: ioclab/control_v1p_sd15_brightness
+    model: ioclab/control_v1p_sd15_brightness
     #module: none not implemented yet
     weight: 0.35
     start: 0.0
