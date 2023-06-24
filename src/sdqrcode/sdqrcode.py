@@ -8,7 +8,8 @@ from pathlib import Path
 import sdqrcode.Engines.engine_util as engine_util
 
 CONFIGS = {
-    "default": Path(__file__).parent / "configs" / "default.yaml",
+    "default_auto": Path(__file__).parent / "configs" / "default_auto.yaml",
+    "default_diffusers": Path(__file__).parent / "configs" / "default_diffusers.yaml",
     # Add more configuration files as needed
 }
 
@@ -22,7 +23,7 @@ class constants:
 class Sdqrcode:
     def __init__(
         self,
-        config_name_or_path_or_dict: str = "./configs/default.yaml",
+        config_name_or_path_or_dict: str,
         auto_api_hostname: str = None,
         auto_api_port: int = None,
         auto_api_https: bool = None,
@@ -163,7 +164,7 @@ def update_config_dict(
 
 
 def init(
-    config: str = "./configs/default.yaml",
+    config: str = "default_diffusers",
     auto_api_hostname: str = None,
     auto_api_port: int = None,
     auto_api_https: bool = None,
