@@ -16,14 +16,14 @@ class DiffusersEngine(Engine.Engine):
     def __init__(self, config):
         super().__init__(config)
 
-        controlnet_units = []
+        self.controlnet_units = []
         for name, unit in self.config["controlnet_units"].items():
             cn_unit = ControlNetModel.from_pretrained(unit["model"])
-            controlnet_units.append(cn_unit)
+            self.controlnet_units.append(cn_unit)
 
         self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
             self.config["global"]["model_name_or_path_or_api_name"],
-            controlnet=controlnet_units,
+            controlnet=self.controlnet_units,
         ).to("cuda")
 
         # todo setup scheduler
@@ -31,7 +31,8 @@ class DiffusersEngine(Engine.Engine):
     def generate_sd_qrcode(
         self,
         qr_code_img: PIL.Image.Image,
-    ) -> PIL.Image.Image:
+        return_cn_imgs: bool = False,
+    ) -> list[PIL.Image.Image]:
         controlnet_weights = [
             unit["weight"] for unit in self.config["controlnet_units"].values()
         ]
@@ -40,7 +41,7 @@ class DiffusersEngine(Engine.Engine):
             for unit in self.config["controlnet_units"].values()
         ]
 
-        result = self.pipeline(
+        r = self.pipeline(
             prompt=self.config["global"]["prompt"],
             width=self.config["global"]["width"],
             height=self.config["global"]["height"],
@@ -50,4 +51,7 @@ class DiffusersEngine(Engine.Engine):
             controlnet_conditioning_scale=controlnet_weights,
         )
 
-        return result.images[0]
+        if return_cn_imgs:
+            return r.images
+        else:
+            return r.images[0 : -len(self.controlnet_units)]
