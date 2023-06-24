@@ -215,7 +215,7 @@ def init_and_generate_sd_qrcode(
     auto_api_username: str = "",
     auto_api_password: str = "",
     **config_kwargs,
-) -> PIL.Image.Image:
+) -> tuple[PIL.Image.Image, Sdqrcode]:
     # check if variables are set in env
     auto_api_hostname = (
         os.getenv("AUTO_API_HOSTNAME", "")
@@ -251,7 +251,7 @@ def init_and_generate_sd_qrcode(
 
     sd_qr_img = sd_qr_generator.generate_sd_qrcode()
 
-    return sd_qr_img
+    return sd_qr_img, sd_qr_generator
 
 
 def generate_qrcode_img(
