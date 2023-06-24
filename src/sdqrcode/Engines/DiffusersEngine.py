@@ -17,7 +17,7 @@ class DiffusersEngine(Engine.Engine):
         super().__init__(config)
 
         controlnet_units = []
-        for name, unit in self.config["controlnet_units"].item():
+        for name, unit in self.config["controlnet_units"].items():
             cn_unit = ControlNetModel.from_pretrained(unit["model"])
             controlnet_units.append(cn_unit)
 
