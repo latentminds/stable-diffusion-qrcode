@@ -4,7 +4,8 @@ import yaml
 import PIL
 import os
 from pathlib import Path
-from Engines.Engine import Engine, init_engine
+
+import sdqrcode.Engines.engine_util as engine_util
 
 CONFIGS = {
     "default": Path(__file__).parent / "configs" / "default.yaml",
@@ -47,7 +48,8 @@ class Sdqrcode:
         if config_name_or_path_or_dict is not dict:
             self.config = get_config(config_name_or_path_or_dict)
 
-        self.engine = init_engine(
+        print("auto_api_hostname", auto_api_hostname)
+        self.engine = engine_util.init_engine(
             hostname=auto_api_hostname,
             port=auto_api_port,
             https=auto_api_https,
@@ -88,8 +90,9 @@ class Sdqrcode:
 
 
 def get_config(config_name_or_path: str = "default") -> dict:
-    if config_name_or_path is dict:
+    if type(config_name_or_path) == type(dict()):
         return config_name_or_path
+    print(type(config_name_or_path))
     if config_name_or_path in CONFIGS:
         with open(CONFIGS[config_name_or_path], "r") as f:
             config = yaml.safe_load(f)

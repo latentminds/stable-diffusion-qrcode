@@ -1,4 +1,4 @@
-import Engine
+import sdqrcode.Engines.Engine as Engine
 
 from diffusers import (
     ControlNetModel,
@@ -12,7 +12,7 @@ from diffusers import DPMSolverMultistepScheduler
 import PIL
 
 
-class DiffusersEngine(Engine):
+class DiffusersEngine(Engine.Engine):
     def __init__(self, config):
         super().__init__(config)
 

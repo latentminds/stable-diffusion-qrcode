@@ -1,9 +1,13 @@
-import Engine
 import webuiapi
 import PIL
+import os
+
+print(os.getcwd())
+import sys
+import sdqrcode.Engines.Engine as Engine
 
 
-class AutomaticEngine(Engine):
+class AutomaticEngine(Engine.Engine):
     def __init__(
         self,
         config,
@@ -41,6 +45,7 @@ class AutomaticEngine(Engine):
     def generate_sd_qrcode(self, qr_code_img, return_cn_imgs=False) -> PIL.Image.Image:
         cn_units = []
         for name, unit in self.config["controlnet_units"].items():
+            print("unit", unit)
             cn_unit = webuiapi.ControlNetUnit(
                 input_image=qr_code_img,
                 module=unit["module"],
