@@ -10,11 +10,10 @@ from sdqrcode.sdqrcode import init_and_generate_sd_qrcode
 
 class TestGenerateSDQRCode(unittest.TestCase):
     def setUp(self) -> None:
-        dotenv.load_dotenv("./tests/.env")
-
         return super().setUp()
 
-    def test_generate_sd_qrcode(self):
+    def test_generate_sd_qrcode_auto(self):
+        dotenv.load_dotenv("./tests/.env")
         sd_qr_code = init_and_generate_sd_qrcode(
             config_name_or_path="./tests/test_configs/default_auto.yaml",
             auto_api_hostname=os.getenv("AUTO_API_HOSTNAME"),
@@ -28,7 +27,7 @@ class TestGenerateSDQRCode(unittest.TestCase):
 
         for i, sd_qr_code_img in enumerate(sd_qr_code):
             sd_qr_code_img.save(
-                f"./tests/imgs_test_results/test_generate_sd_qrcode_{i}.png"
+                f"./tests/imgs_test_results/test_generate_sd_qrcode_{i}_auto.png"
             )
 
 
