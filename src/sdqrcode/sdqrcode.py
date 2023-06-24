@@ -91,7 +91,6 @@ class Sdqrcode:
 def get_config(config_name_or_path: str = "default") -> dict:
     if type(config_name_or_path) == type(dict()):
         return config_name_or_path
-    print(type(config_name_or_path))
     if config_name_or_path in CONFIGS:
         with open(CONFIGS[config_name_or_path], "r") as f:
             config = yaml.safe_load(f)
