@@ -209,7 +209,7 @@ def init(
 
 
 def init_and_generate_sd_qrcode(
-    config_name_or_path: str = "default",
+    config_name_or_path: str = "default_diffusers",
     auto_api_hostname: str = "",
     auto_api_port: int = 7860,
     auto_api_https: bool = True,
