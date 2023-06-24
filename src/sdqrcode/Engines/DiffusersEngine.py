@@ -51,7 +51,4 @@ class DiffusersEngine(Engine.Engine):
             controlnet_conditioning_scale=controlnet_weights,
         )
 
-        if return_cn_imgs:
-            return r.images
-        else:
-            return r.images[0 : -len(self.controlnet_units)]
+        return r.image
