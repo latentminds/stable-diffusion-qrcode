@@ -1,0 +1,1 @@
+from sdqrcode.sdqrcode import *
