@@ -10,4 +10,6 @@ def init_engine(**engine_kwargs):
     else:
         from . import DiffusersEngine
 
-        return DiffusersEngine.DiffusersEngine(**engine_kwargs)
+        config = engine_kwargs["config"]
+
+        return DiffusersEngine.DiffusersEngine(config=config)

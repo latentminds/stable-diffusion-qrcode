@@ -1,5 +1,5 @@
 webuiapi
-qrcode[pil]
+qrcode
 pyyaml
 diffusers @ git+https://github.com/holwech/diffusers
 transformers==4.30.0
