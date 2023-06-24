@@ -44,7 +44,7 @@ class DiffusersEngine(Engine.Engine):
             prompt=self.config["global"]["prompt"],
             width=self.config["global"]["width"],
             height=self.config["global"]["height"],
-            steps=self.config["global"]["steps"],
+            num_inference_steps=self.config["global"]["steps"],
             images=[qr_code_img for _ in range(len(controlnet_weights))],
             controlnet_guidance=controlnet_startstops,
             controlnet_guidance_scale=controlnet_weights,

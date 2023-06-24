@@ -10,7 +10,7 @@ global:
 
 controlnet_units:
   brightness:
-    model_name: ioclab/control_v1p_sd15_brightness
+    model: ioclab/control_v1p_sd15_brightness
     #module: none not implemented yet
     weight: 0.35
     start: 0.0

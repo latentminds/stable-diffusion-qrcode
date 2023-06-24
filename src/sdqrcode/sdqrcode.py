@@ -48,7 +48,6 @@ class Sdqrcode:
         if config_name_or_path_or_dict is not dict:
             self.config = get_config(config_name_or_path_or_dict)
 
-        print("auto_api_hostname", auto_api_hostname)
         self.engine = engine_util.init_engine(
             hostname=auto_api_hostname,
             port=auto_api_port,
