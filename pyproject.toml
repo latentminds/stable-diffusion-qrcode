@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sdqrcode"
-version = "0.2.4"
+version = "0.2.6"
 description = "Generate ai qr codes with stable diffusion and controlnet with standardised methods"
 authors = ["PhilSad <philippe.henri.saade@gmail.com>"]
 license = "MIT"

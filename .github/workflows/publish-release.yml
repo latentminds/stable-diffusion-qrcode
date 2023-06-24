@@ -34,5 +34,4 @@ jobs:
           poetry-version: 1.5.1
       - name: Publish poetry package
         run: |
-          poetry version patch  
           poetry publish --build -u __token__ -p ${{ secrets.PYPI_API_TOKEN }}
