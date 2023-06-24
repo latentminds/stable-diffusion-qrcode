@@ -1,9 +1,15 @@
 import unittest
 import qrcode
-from sdqrcode.sdqrcode import Engine, constants, get_config
 import os
 import dotenv
+import datetime
+import time
 from PIL import Image
+
+import sys
+
+sys.path.append("./src/")
+from sdqrcode.sdqrcode import Engine, constants, get_config
 
 
 dotenv.load_dotenv("./tests/.env")
@@ -30,10 +36,11 @@ class TestEngineAuto(unittest.TestCase):
         )
 
         for i, sd_qr_code_img in enumerate(sd_qr_code_imgs):
-            sd_qr_code_img.save(
-                f"./tests/imgs_test_results/test_sd_qr_code_auto_api_{i}.png"
-            )
-        self.assertTrue(True)
+            # path with the date and time and index
+            path = f"./tests/imgs_test_results/test_generate_sd_qrcode_auto_api_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}_{i}.png"
+
+            sd_qr_code_img.save(path)
+        self.assertEqual(len(sd_qr_code_imgs), 3)
 
 
 if __name__ == "__main__":

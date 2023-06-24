@@ -1,5 +1,5 @@
 import unittest
-from sdqrcode.sdqrcode import generate_sd_qrcode
+from sdqrcode.sdqrcode import init_and_generate_sd_qrcode
 import qrcode
 import dotenv
 import os
@@ -12,7 +12,7 @@ class TestGenerateSDQRCode(unittest.TestCase):
         return super().setUp()
 
     def test_generate_sd_qrcode(self):
-        sd_qr_code = generate_sd_qrcode(
+        sd_qr_code = init_and_generate_sd_qrcode(
             config_name_or_path="./configs/default.yaml",
             auto_api_hostname=os.getenv("AUTO_API_HOSTNAME"),
             auto_api_port=os.getenv("AUTO_API_PORT"),

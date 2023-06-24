@@ -9,14 +9,14 @@ global:
   seed: -1
 
 controlnet_units:
-  - module: inpaint
-    model: control_v1p_sd15_brightness [5f6aa6ed]
+  - model_name: control_v1p_sd15_brightness [5f6aa6ed]
+    #module: none not implemented yet
     weight: 0.35
     start: 0.0
     end: 1.0
 
-  - module: inpaint
-    model: control_v11f1e_sd15_tile [a371b31b]
+  - model: control_v11f1e_sd15_tile [a371b31b]
+    #module: none not implemented yet
     weight: 0.5
     start: 0.35
     end: 0.70
