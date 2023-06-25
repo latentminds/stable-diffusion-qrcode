@@ -17,8 +17,8 @@ sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_d
 
 
 # Updates
-**June 25:** The diffusers version has been added to the package
-**June 23:** a colab with a pure diffusers version without automatic1111 dependencie is now available. It will be added to the package soon
+- **June 25:** The diffusers version has been added to the package
+- **June 23:** a colab with a pure diffusers version without automatic1111 dependencie is now available. It will be added to the package soon
 
 # Motivation
 There is multiple methodes availables to generate ai qr code with differents controlnets models and params. Some parameters might works better with some stable diffusion checkpoints and it's a pain to find somethings that works consistanly.
