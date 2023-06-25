@@ -26,7 +26,7 @@ class TestGenerateSDQRCode(unittest.TestCase):
 
     def test_generate_sd_qrcode_diffusers_img2img(self):
         sd_qr_code_img, _ = init_and_generate_sd_qrcode(
-            config_name_or_path="./src/sdqrcode/configs/img2img_tile_auto.yaml"
+            config_name_or_path="./src/sdqrcode/configs/img2img_tile_diffusers.yaml"
         )
 
         self.assertIsNotNone(sd_qr_code_img)

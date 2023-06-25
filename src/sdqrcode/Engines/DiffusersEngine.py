@@ -68,7 +68,7 @@ class DiffusersEngine(Engine.Engine):
             ).to("cuda")
         
         if self.config["global"]["mode"] == "img2img":
-            self.pipeline = StableDiffusionControlNetImg2ImgPipeline(
+            self.pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
             )
