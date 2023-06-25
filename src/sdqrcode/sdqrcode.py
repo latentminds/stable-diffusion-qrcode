@@ -112,7 +112,7 @@ class Sdqrcode:
         # set controlnet input images
         controlnet_input_images = []
         for _, unit in self.config["controlnet_units"].items():
-            if unit["input_image"] == "qrcode":
+            if unit["cn_input_image"] == "qrcode":
                 cn_input_img = qr_img
             else:
                 cn_input_img = read_image(unit["cn_input_image"])
@@ -161,6 +161,8 @@ def update_config_dict(
     height: int = None,
     seed: int = None,
     batch_size: int = None,
+    input_image: Union[PIL.Image.Image, str] = None,
+    controlnet_input_images: list[Union[PIL.Image.Image, str]] = None,
     controlnet_model_names: list[str] = None,
     controlnet_weights: list[float] = None,
     controlnet_startstops: list[tuple[int, int]] = None,
@@ -191,7 +193,23 @@ def update_config_dict(
         config["global"]["seed"] = seed
     if batch_size is not None:
         config["global"]["batch_size"] = batch_size
-
+    if input_image is not None:
+        config["global"]["input_image"] = input_image
+    if controlnet_input_images is not None:
+        assert len(controlnet_input_images) == len(config["controlnet_units"].keys()), "Number of controlnet input images must match number of controlnet units"
+        for (i, cn_input_image), cn_name in zip(enumerate(controlnet_input_images), config["controlnet_units"].keys()):
+            config["controlnet_units"][cn_name]["cn_input_image"] = cn_input_image
+    if controlnet_weights is not None:
+        assert len(controlnet_weights) == len(config["controlnet_units"].keys()), "Number of controlnet weights must match number of controlnet units"
+        for (i, cn_weight), cn_name in zip(enumerate(controlnet_weights), config["controlnet_units"].keys()):
+            config["controlnet_units"][cn_name]["weight"] = cn_weight
+    if controlnet_startstops is not None:
+        assert len(controlnet_startstops) == len(config["controlnet_units"].keys()), "Number of controlnet startstops must match number of controlnet units"
+        for (i, cn_startstop), cn_name in zip(enumerate(controlnet_startstops), config["controlnet_units"].keys()):
+            config["controlnet_units"][cn_name]["start"] = cn_startstop[0]
+            config["controlnet_units"][cn_name]["end"] = cn_startstop[1]
+    
+    # TODO: add self.update_models
     if controlnet_model_names is not None:
         config["controlnet_units"] = {}
         for i, controlnet_model_name in enumerate(controlnet_model_names):
@@ -200,7 +218,8 @@ def update_config_dict(
             config["controlnet_units"][i]["weight"] = controlnet_weights[i]
             config["controlnet_units"][i]["start"] = controlnet_startstops[i][0]
             config["controlnet_units"][i]["end"] = controlnet_startstops[i][1]
-
+        
+    
     if qrcode_text is not None:
         config["qrcode"]["text"] = qrcode_text
     if qrcode_error_correction is not None:
