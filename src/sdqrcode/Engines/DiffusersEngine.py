@@ -65,13 +65,14 @@ class DiffusersEngine(Engine.Engine):
             self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
-            ).to("cuda")
+            )
         
         if self.config["global"]["mode"] == "img2img":
             self.pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
-            ).to('cuda')
+            )
+        self.pipeline.enable_model_cpu_offload()
 
 
     def generate_sd_qrcode(
