@@ -3,9 +3,12 @@ import qrcode
 import yaml
 import PIL
 import os
+import urllib.request
 from pathlib import Path
-
+import requests
+from io import BytesIO
 import sdqrcode.Engines.engine_util as engine_util
+from typing import Union
 
 CONFIGS = {
     "default_auto": Path(__file__).parent / "configs" / "default_auto.yaml",
@@ -61,6 +64,8 @@ class Sdqrcode:
     def generate_sd_qrcode(
         self,
         qr_img: PIL.Image.Image = None,
+        input_image: PIL.Image.Image = None, # for img2img
+        controlnet_input_images: list[Union[PIL.Image.Image, str]] = None,
         return_cn_imgs: bool = False,
         **config_kwargs,
     ) -> list[PIL.Image.Image]:
@@ -74,6 +79,8 @@ class Sdqrcode:
             config=self.config,
             **config_kwargs,
         )
+        
+        # generate qr code if not provided
 
         if qr_img is None:
             error_name_to_enum = {
@@ -84,18 +91,35 @@ class Sdqrcode:
             }
 
             qr_img = generate_qrcode_img(
-                error_correction=error_name_to_enum[
-                    self.config["qrcode"]["error_correction"]
-                ],
+                error_correction=error_name_to_enum[self.config["qrcode"]["error_correction"]],
                 box_size=self.config["qrcode"]["box_size"],
                 border=self.config["qrcode"]["border"],
                 fill_color=self.config["qrcode"]["fill_color"],
                 back_color=self.config["qrcode"]["back_color"],
                 text=self.config["qrcode"]["text"],
             )
-
-        sd_qr_img = self.engine.generate_sd_qrcode(qr_img)
-        return sd_qr_img
+        
+        # set img2img input image
+        input_image = None
+        if self.config["global"]["mode"] == "img2img":
+            if self.config["global"]["input_image"] == "qrcode":
+                input_image = qr_img
+            else:
+                input_image = read_image(self.config["global"]["input_image"])
+            
+        
+        
+        # set controlnet input images
+        controlnet_input_images = []
+        for _, unit in self.config["controlnet_units"].items():
+            if unit["input_image"] == "qrcode":
+                cn_input_img = qr_img
+            else:
+                cn_input_img = read_image(unit["cn_input_image"])
+            controlnet_input_images.append(cn_input_img)
+            
+        sd_qr_imgs = self.engine.generate_sd_qrcode(input_image, controlnet_input_images)
+        return sd_qr_imgs
 
 
 def get_config(config_name_or_path: str = "default_diffusers") -> dict:
@@ -110,9 +134,24 @@ def get_config(config_name_or_path: str = "default_diffusers") -> dict:
 
     return config
 
+def read_image(path_or_url):
+    try:
+        # First, try to open the image assuming the input is a local file path.
+        return PIL.Image.open(path_or_url)
+    except (FileNotFoundError, IsADirectoryError, PermissionError):
+        # If that failed, try to open the PIL.image assuming the input is a URL.
+        try:
+            response = requests.get(path_or_url)
+            response.raise_for_status()  # Raise an exception if the GET request was not successful.
+            return PIL.Image.open(BytesIO(response.content))
+        except requests.RequestException as e:
+            # If the input was not a valid URL or the image could not be downloaded,
+            # raise an exception.
+            raise ValueError(f"Could not open {path_or_url} as a local file or a URL.") from e
 
 def update_config_dict(
     config: dict,
+    mode: str = None,
     prompt: str = None,
     negative_prompt: str = None,
     model_name_or_path: str = None,
@@ -132,6 +171,8 @@ def update_config_dict(
     qrcode_fill_color: str = None,
     qrcode_back_color: str = None,
 ):
+    if mode is not None:
+        config["global"]["mode"] = mode
     if prompt is not None:
         config["global"]["prompt"] = prompt
     if negative_prompt is not None:

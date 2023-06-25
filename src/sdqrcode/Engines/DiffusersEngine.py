@@ -3,6 +3,7 @@ import sdqrcode.Engines.Engine as Engine
 from diffusers import (
     ControlNetModel,
     StableDiffusionControlNetPipeline,
+    StableDiffusionControlNetImg2ImgPipeline,
     UniPCMultistepScheduler,
 )
 import torch
@@ -59,18 +60,24 @@ class DiffusersEngine(Engine.Engine):
         for name, unit in self.config["controlnet_units"].items():
             cn_unit = ControlNetModel.from_pretrained(unit["model"])
             self.controlnet_units.append(cn_unit)
+            
+        if self.config["global"]["mode"] == "txt2img":  
+            self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
+                self.config["global"]["model_name_or_path"],
+                controlnet=self.controlnet_units,
+            ).to("cuda")
+        
+        if self.config["global"]["mode"] == "img2img":
+            self.pipeline = StableDiffusionControlNetImg2ImgPipeline(
+                self.config["global"]["model_name_or_path"],
+                controlnet=self.controlnet_units,
+            )
 
-        self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
-            self.config["global"]["model_name_or_path"],
-            controlnet=self.controlnet_units,
-        ).to("cuda")
-
-        # todo setup scheduler
 
     def generate_sd_qrcode(
         self,
-        qr_code_img: PIL.Image.Image,
-        return_cn_imgs: bool = False,
+        input_image: PIL.Image.Image = None,
+        controlnet_input_images: PIL.Image.Image = None,
     ) -> list[PIL.Image.Image]:
         controlnet_weights = [
             unit["weight"] for unit in self.config["controlnet_units"].values()
@@ -85,40 +92,42 @@ class DiffusersEngine(Engine.Engine):
             self.pipeline.scheduler.config,
         )
 
-        r = self.pipeline(
-            prompt=self.config["global"]["prompt"],
-            negative_prompt=self.config["global"]["negative_prompt"],
-            width=self.config["global"]["width"],
-            height=self.config["global"]["height"],
-            num_inference_steps=self.config["global"]["steps"],
-            image=[qr_code_img for _ in range(len(controlnet_weights))],
-            controlnet_guidance=controlnet_startstops,
-            controlnet_conditioning_scale=controlnet_weights,
-            generator=torch.Generator(device="cuda").manual_seed(
-                self.config["global"]["seed"]
-            ),
-            num_images_per_prompt=self.config["global"]["batch_size"],
-        )
+        if self.config["global"]["mode"] == "txt2img":
+            r = self.pipeline(
+                prompt=self.config["global"]["prompt"],
+                negative_prompt=self.config["global"]["negative_prompt"],
+                width=self.config["global"]["width"],
+                height=self.config["global"]["height"],
+                num_inference_steps=self.config["global"]["steps"],
+                image=controlnet_input_images,
+                controlnet_guidance=controlnet_startstops,
+                controlnet_conditioning_scale=controlnet_weights,
+                generator=torch.Generator(device="cuda").manual_seed(
+                    self.config["global"]["seed"]
+                ),
+                num_images_per_prompt=self.config["global"]["batch_size"],
+            )
+
+        if self.config["global"]["mode"] == "img2img":
+            r = self.pipeline(
+                prompt=self.config["global"]["prompt"],
+                image=input_image,
+                negative_prompt=self.config["global"]["negative_prompt"],
+                width=self.config["global"]["width"],
+                height=self.config["global"]["height"],
+                num_inference_steps=self.config["global"]["steps"],
+                control_image=controlnet_input_images,
+                controlnet_guidance=controlnet_startstops,
+                controlnet_conditioning_scale=controlnet_weights,
+                generator=torch.Generator(device="cuda").manual_seed(
+                    self.config["global"]["seed"]
+                ),
+                num_images_per_prompt=self.config["global"]["batch_size"],
+            )
 
         return r.images
 
 
-scheduler_name_to_class = {
-    "DDIM": DDIMScheduler,
-    "Euler": EulerDiscreteScheduler,
-    "Euler a": EulerAncestralDiscreteScheduler,
-    "LMS": LMSDiscreteScheduler,
-    "DPM2 Karras": KDPM2DiscreteScheduler,
-    "DPM2 a Karras": KDPM2AncestralDiscreteScheduler,
-    "Heun": HeunDiscreteScheduler,
-    "DDPM": DDPMScheduler,
-    "UniPC": UniPCMultistepScheduler,
-    "DPM++ SDE": DPMSolverSDEScheduler,
-    "DPM++ 2S a": DPMSolverSinglestepScheduler,
-    "DEI": DEISMultistepScheduler,
-    "DPM++ 2M": DPMSolverMultistepScheduler,
-    "PNDM": PNDMScheduler,
-}
 
 
 def get_scheduler(scheduler_name: str, config_scheduler):

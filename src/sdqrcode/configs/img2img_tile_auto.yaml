@@ -1,8 +1,10 @@
 global:
-  mode: txt2img
+  mode: img2img
+  input_image: qrcode
   prompt: "a beautiful minecraft landscape, lights and shadows"
   negative_prompt: "ugly"
   model_name_or_path: "6ce0161689"
+  denoising_strength: 0.7
   steps: 20
   scheduler_name: Euler a
   cfg_scale: 7
@@ -12,14 +14,6 @@ global:
   batch_size: 1
 
 controlnet_units:
-  brightness:
-    model: control_v1p_sd15_brightness [5f6aa6ed]
-    cn_input_image: qrcode
-    module: none
-    weight: 0.35
-    start: 0.0
-    end: 1.0
-
   tile:
     model: control_v11f1e_sd15_tile [a371b31b]
     cn_input_image: qrcode
