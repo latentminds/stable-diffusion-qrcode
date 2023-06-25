@@ -51,4 +51,4 @@ class DiffusersEngine(Engine.Engine):
             controlnet_conditioning_scale=controlnet_weights,
         )
 
-        return r.image
+        return r.images
