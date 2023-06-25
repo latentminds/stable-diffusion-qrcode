@@ -2,7 +2,7 @@ global:
   prompt: "a beautiful minecraft landscape, lights and shadows"
   model_name_or_path: "SG161222/Realistic_Vision_V2.0"
   steps: 20
-  # sampler_name: Euler a not implemented yet
+  sampler_name: Euler a not implemented yet
   cfg_scale: 7
   width: 768
   height: 768

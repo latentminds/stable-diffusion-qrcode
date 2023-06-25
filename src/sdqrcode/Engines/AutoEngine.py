@@ -29,17 +29,8 @@ class AutomaticEngine(Engine.Engine):
 
         port = 443 if https else port
 
-        self.api_or_pipeline = webuiapi.WebUIApi(
+        self.api = webuiapi.WebUIApi(
             hostname, username=username, password=password, port=port, use_https=https
-        )
-
-        print("stable diffusion models", self.api_or_pipeline.get_sd_models())
-        print(
-            "available controlnet models", self.api_or_pipeline.controlnet_model_list()
-        )
-        print(
-            "available controlnet modules",
-            self.api_or_pipeline.controlnet_module_list(),
         )
 
     def generate_sd_qrcode(self, qr_code_img, return_cn_imgs=False) -> PIL.Image.Image:
@@ -48,7 +39,7 @@ class AutomaticEngine(Engine.Engine):
             print("unit", unit)
             cn_unit = webuiapi.ControlNetUnit(
                 input_image=qr_code_img,
-                module=unit["module"],
+                module="none",
                 model=unit["model"],
                 pixel_perfect=True,
                 weight=unit["weight"],
@@ -57,7 +48,7 @@ class AutomaticEngine(Engine.Engine):
             )
             cn_units.append(cn_unit)
 
-        r = self.api_or_pipeline.txt2img(
+        r = self.api.txt2img(
             seed=self.config["global"]["seed"],
             prompt=self.config["global"]["prompt"],
             width=self.config["global"]["width"],
