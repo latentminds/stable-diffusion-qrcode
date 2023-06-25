@@ -4,32 +4,31 @@ alpha version, expect breaking changes
 
 call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770)
 
-**June 23 update: a colab with a pure diffusers version without automatic1111 dependencie is now available !** It will be added to the package soon
-
 # tldr
 
 ```python
 import sdqrcode
 sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_diffusers")
 ```
+| Engine | Colab |
+|---|---|
+| Diffusers | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Automatic1111 | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_auto.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
 
-**Diffusers Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/diffusers_qrcode_test_multicontrolnet_guidance_start_end.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
 
-**Automatic1111 Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/demo_sdqrcode.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
+# Updates
+- **June 25:** The diffusers version has been added to the package
+- **June 23:** a colab with a pure diffusers version without automatic1111 dependencie is now available. It will be added to the package soon
 
 # Motivation
 There is multiple methodes availables to generate ai qr code with differents controlnets models and params. Some parameters might works better with some stable diffusion checkpoints and it's a pain to find somethings that works consistanly.
 This repo aims to easily try and evaluate differents methods, models, params and share them with a simple config file 
 
 # Exemple
-(cherry picked, will add more results later)
-![Dalmatian qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/a33a7ae9-3842-4290-b5b2-0104f5339323)
+click to expand, cherry picked, will add more results later
 
-![Swimming pool girl qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305)
+| ![Dalmatian qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/a33a7ae9-3842-4290-b5b2-0104f5339323) | ![Swimming pool girl qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305) |
+|---|---|
 
 # Install
 ```
@@ -55,7 +54,7 @@ images = generator.generate_sd_qrcode()
 
 # or with some custom parameters (you can't set the models at this stage)
 images = generator.generate_sd_qrcode(
-    prompt = "A beautiful minecraft landscape,
+    prompt = "A beautiful minecraft landscape",
     steps = 30,
     cfg_scale = 7 ,
     width = 768,
@@ -77,11 +76,11 @@ images = generator.generate_sd_qrcode(
 ```python
 import sdqrcode
 
-# Use an auto config Define the auto_* params in init to use Automatic1111 backend
+# Use an auto config and define the auto_* params in init to use Automatic1111 backend
 generator = sdqrcode.init(
             config_name_or_path = "default_auto",
             auto_api_hostname = "auto_hostname",
-            auto_api_port="auto_port",
+            auto_api_port=7860,
             auto_api_https = True,
             auto_api_username = "auto_user",
             auto_api_password = "auto_pass"
@@ -92,7 +91,7 @@ images = generator.generate_sd_qrcode()
 ```
 # Config File
 
-This lib uses a yaml file to describe the qrcode generation process. Exemple:
+This lib uses a yaml file to describe the qrcode generation process. You can change any parameters to experiment. Exemple:
 ``` yaml
 global:
   prompt: "a beautiful minecraft landscape, lights and shadows"
@@ -107,14 +106,12 @@ global:
 controlnet_units:
   brightness:
     model: ioclab/control_v1p_sd15_brightness
-    #module: none not implemented yet
     weight: 0.35
     start: 0.0
     end: 1.0
 
   tile:
     model: lllyasviel/control_v11f1e_sd15_tile
-    #module: none not implemented yet
     weight: 0.5
     start: 0.35
     end: 0.70
@@ -127,9 +124,16 @@ qrcode:
   fill_color: black
   back_color: white
   ```
+You can change which controlnets are used by editing the controlnet_units part.
+- A unit starts with a key (ex: brightness, tile), that is used for better readability and does not impact the generation
+- model is the controlnet model name or from local path to use
+- weight is the controlnet weight
+- start is when the controlnet unit starts applying (in fract of total steps)
+- end is when the controlnet unit stops applying (in fract of total steps)
+
 
 # Available configs:
-## ./configs/default.yaml
+## default
 This method seem to be the best for me, I use it with the model [realistic_visionV2](https://civitai.com/models/4201/realistic-vision-v20).
 It uses [Controlnet Brightness](https://huggingface.co/ioclab/control_v1p_sd15_brightness) and [Controlnet Tile](https://huggingface.co/lllyasviel/control_v11f1e_sd15_tile)
 Here are my firsts thoughts:
@@ -137,7 +141,9 @@ Here are my firsts thoughts:
 * You can play with CN tile parameters to get an image more or less "grid like"
 
 # Todos
-- [ ] allow to set the model in the config
+- [ ] allow to set the sampler (diffusers)
+- [ ] allow to set the seed (diffusers)
+- [ ] allow to set the model in the config (auto)
 - [ ] add more configs
 - [x] allow to set the config without having the file in local path
 - [ ] more tests
