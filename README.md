@@ -79,11 +79,11 @@ images = generator.generate_sd_qrcode(
 ```python
 import sdqrcode
 
-# Use an auto config Define the auto_* params in init to use Automatic1111 backend
+# Use an auto config and define the auto_* params in init to use Automatic1111 backend
 generator = sdqrcode.init(
             config_name_or_path = "default_auto",
             auto_api_hostname = "auto_hostname",
-            auto_api_port="auto_port",
+            auto_api_port=7860,
             auto_api_https = True,
             auto_api_username = "auto_user",
             auto_api_password = "auto_pass"
