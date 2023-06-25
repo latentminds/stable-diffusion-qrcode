@@ -10,14 +10,11 @@ call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC111
 import sdqrcode
 sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_diffusers")
 ```
+| Engine | Colab |
+|---|---|
+| Diffusers | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Automatic1111 | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/demo_sdqrcode.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
 
-**Diffusers Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
-
-**Automatic1111 Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/demo_sdqrcode.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
 
 # Updates
 **June 25:** The diffusers version has been added to the package
