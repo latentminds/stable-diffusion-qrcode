@@ -59,7 +59,8 @@ class Sdqrcode:
         )
 
     def generate_sd_qrcode(
-        self, return_cn_imgs: bool = False, **config_kwargs
+        self,
+        return_cn_imgs: bool = False,
         **config_kwargs,
     ) -> list[PIL.Image.Image]:
         self.config = update_config_dict(
