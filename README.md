@@ -7,6 +7,12 @@ call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC111
 **June 23 update: a colab with a pure diffusers version without automatic1111 dependencie is now available !** It will be added to the package soon
 
 # tldr
+
+```python
+import sdqrcode
+sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_diffusers")
+```
+
 **Diffusers Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/diffusers_qrcode_test_multicontrolnet_guidance_start_end.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
@@ -28,44 +34,87 @@ This repo aims to easily try and evaluate differents methods, models, params and
 # Install
 ```
 pip install sdqrcode
+pip install git+https://github.com/holwech/diffusers # for controlnet start/stop, I'll update once the PR is merged
+```
+# Usage Diffusers
+
+```python
+import sdqrcode
+# init with a default config
+generator = sdqrcode.init(config = "default_diffusers")
+
+# or with a custom config
+generator = sdqrcode.init(config = "/path/to/config.yaml")
+
+# or you can also set custom config params (base model, controlnet models, steps, ...)
+generator = sdqrcode.init(config = "default_diffusers", model_name_or_path="Lykon/DreamShaper")
+
+
+# Then you can generate according to the config
+images = generator.generate_sd_qrcode()
+
+# or with some custom parameters (you can't set the models at this stage)
+images = generator.generate_sd_qrcode(
+    prompt = "A beautiful minecraft landscape,
+    steps = 30,
+    cfg_scale = 7 ,
+    width = 768,
+    height = 768,
+    seed = -1,
+    controlnet_weights = [0.35, 0.65], # [weight_cn_1, weight_cn_2, ...]
+    controlnet_startstops = [(0,1), (0.35, 0.7)], # [(start_cn_1, end_cn_1), ... ]. (0.35, 0.7) means apply CN after 35% of total steps until 70% of total steps 
+    qrcode_text = "https://koll.ai" ,
+    qrcode_error_correction = "high",
+    qrcode_box_size = 10,
+    qrcode_border = 4,
+    qrcode_fill_color = "black",
+    qrcode_back_color = "white",
+)
 ```
 
-# Usage
+
+# Usage Automatic1111
 ```python
 import sdqrcode
 
-# generate with default params
-sd_qr_code = sdqrcode.generate_sd_qrcode(
-            config_name_or_path="./configs/default.yaml",
-            auto_api_hostname=os.getenv("AUTO_API_HOSTNAME"),
-            auto_api_port=os.getenv("AUTO_API_PORT"),
-            auto_api_https=os.getenv("AUTO_API_HTTPS") == "true",
-            auto_api_username=os.getenv("AUTO_API_USERNAME"),
-            auto_api_password=os.getenv("AUTO_API_PASSWORD"),
+# Use an auto config Define the auto_* params in init to use Automatic1111 backend
+generator = sdqrcode.init(
+            config_name_or_path = "default_auto",
+            auto_api_hostname = "auto_hostname",
+            auto_api_port="auto_port",
+            auto_api_https = True,
+            auto_api_username = "auto_user",
+            auto_api_password = "auto_pass"
         )
+
+# Then you can generate like the diffusers version
+images = generator.generate_sd_qrcode()
 ```
+# Config File
 
 This lib uses a yaml file to describe the qrcode generation process. Exemple:
 ``` yaml
 global:
-  prompt: "a beautiful landscape"
-#  model_name_or_path_or_api_name: "6ce0161689" (not implemented)
+  prompt: "a beautiful minecraft landscape, lights and shadows"
+  model_name_or_path: "SG161222/Realistic_Vision_V2.0"
   steps: 20
-  sampler_name: Euler a
+  # sampler_name: Euler a not implemented yet
   cfg_scale: 7
-  width: 512
-  height: 512
+  width: 768
+  height: 768
   seed: -1
 
 controlnet_units:
-  - module: none
-    model: control_v1p_sd15_brightness [5f6aa6ed]
+  brightness:
+    model: ioclab/control_v1p_sd15_brightness
+    #module: none not implemented yet
     weight: 0.35
     start: 0.0
     end: 1.0
 
-  - module: none
-    model: control_v11f1e_sd15_tile [a371b31b]
+  tile:
+    model: lllyasviel/control_v11f1e_sd15_tile
+    #module: none not implemented yet
     weight: 0.5
     start: 0.35
     end: 0.70
@@ -90,10 +139,10 @@ Here are my firsts thoughts:
 # Todos
 - [ ] allow to set the model in the config
 - [ ] add more configs
-- [ ] allow to set the config without having the file in local path
+- [x] allow to set the config without having the file in local path
 - [ ] more tests
 - [ ] try to install the webui in demo colab
-- [ ] add diffusers backend
+- [x] add diffusers backend
 - [ ] add docs
 
 # Contrib

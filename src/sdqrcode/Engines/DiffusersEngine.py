@@ -22,7 +22,7 @@ class DiffusersEngine(Engine.Engine):
             self.controlnet_units.append(cn_unit)
 
         self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
-            self.config["global"]["model_name_or_path_or_api_name"],
+            self.config["global"]["model_name_or_path"],
             controlnet=self.controlnet_units,
         ).to("cuda")
 

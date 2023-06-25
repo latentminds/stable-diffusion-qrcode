@@ -106,7 +106,7 @@ def get_config(config_name_or_path: str = "default") -> dict:
 def update_config_dict(
     config: dict,
     prompt: str = None,
-    model_name_or_path_or_api_name: str = None,
+    model_name_or_path: str = None,
     steps: int = None,
     cfg_scale: float = None,
     width: int = None,
@@ -124,10 +124,8 @@ def update_config_dict(
 ):
     if prompt is not None:
         config["global"]["prompt"] = prompt
-    if model_name_or_path_or_api_name is not None:
-        config["global"][
-            "model_name_or_path_or_api_name"
-        ] = model_name_or_path_or_api_name
+    if model_name_or_path is not None:
+        config["global"]["model_name_or_path"] = model_name_or_path
     if steps is not None:
         config["global"]["steps"] = steps
     if cfg_scale is not None:
@@ -175,7 +173,7 @@ def init(
 ):
     """
     config_kwargs:
-        model_name_or_path_or_api_name: str = None,
+        model_name_or_path: str = None,
         steps: int = None,
         cfg_scale: float = None,
         width: int = None,

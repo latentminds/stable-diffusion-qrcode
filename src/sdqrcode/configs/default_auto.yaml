@@ -1,6 +1,6 @@
 global:
   prompt: "a beautiful minecraft landscape, lights and shadows"
-  model_name_or_path_or_api_name: "6ce0161689"
+  model_name_or_path: "6ce0161689"
   steps: 20
   sampler_name: Euler a
   cfg_scale: 7
