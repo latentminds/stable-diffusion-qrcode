@@ -10,6 +10,7 @@ import transformers
 from diffusers import UniPCMultistepScheduler
 from diffusers import DPMSolverMultistepScheduler
 import PIL
+import torch
 
 # [diffusers.schedulers.scheduling_ddim.DDIMScheduler,
 #  diffusers.schedulers.scheduling_euler_ancestral_discrete.EulerAncestralDiscreteScheduler,
@@ -92,6 +93,9 @@ class DiffusersEngine(Engine.Engine):
             image=[qr_code_img for _ in range(len(controlnet_weights))],
             controlnet_guidance=controlnet_startstops,
             controlnet_conditioning_scale=controlnet_weights,
+            generator=torch.Generator(device="cuda").manual_seed(
+                self.config["global"]["seed"]
+            ),
         )
 
         return r.images
