@@ -13,7 +13,7 @@ import sdqrcode
 sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_diffusers")
 ```
 
-**Diffusers Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/diffusers_qrcode_test_multicontrolnet_guidance_start_end.ipynb">
+**Diffusers Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
