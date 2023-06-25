@@ -71,7 +71,7 @@ class DiffusersEngine(Engine.Engine):
             self.pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
-            )
+            ).to('coda')
 
 
     def generate_sd_qrcode(
@@ -107,7 +107,7 @@ class DiffusersEngine(Engine.Engine):
                 ),
                 num_images_per_prompt=self.config["global"]["batch_size"],
             )
-
+        
         if self.config["global"]["mode"] == "img2img":
             r = self.pipeline(
                 prompt=self.config["global"]["prompt"],
