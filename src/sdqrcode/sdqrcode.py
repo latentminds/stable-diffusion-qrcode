@@ -218,7 +218,6 @@ def update_config_dict(
             config["controlnet_units"][i]["weight"] = controlnet_weights[i]
             config["controlnet_units"][i]["start"] = controlnet_startstops[i][0]
             config["controlnet_units"][i]["end"] = controlnet_startstops[i][1]
-        
     
     if qrcode_text is not None:
         config["qrcode"]["text"] = qrcode_text
