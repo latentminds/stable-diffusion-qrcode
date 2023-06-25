@@ -4,8 +4,6 @@ alpha version, expect breaking changes
 
 call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770)
 
-**June 23 update: a colab with a pure diffusers version without automatic1111 dependencie is now available !** It will be added to the package soon
-
 # tldr
 
 ```python
@@ -20,6 +18,10 @@ sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_d
 **Automatic1111 Colab:**  <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/demo_sdqrcode.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
+
+# Updates
+**June 25:** The diffusers version has been added to the package
+**June 23:** a colab with a pure diffusers version without automatic1111 dependencie is now available. It will be added to the package soon
 
 # Motivation
 There is multiple methodes availables to generate ai qr code with differents controlnets models and params. Some parameters might works better with some stable diffusion checkpoints and it's a pain to find somethings that works consistanly.
@@ -129,7 +131,7 @@ qrcode:
   ```
 
 # Available configs:
-## ./configs/default.yaml
+## default
 This method seem to be the best for me, I use it with the model [realistic_visionV2](https://civitai.com/models/4201/realistic-vision-v20).
 It uses [Controlnet Brightness](https://huggingface.co/ioclab/control_v1p_sd15_brightness) and [Controlnet Tile](https://huggingface.co/lllyasviel/control_v11f1e_sd15_tile)
 Here are my firsts thoughts:
