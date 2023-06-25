@@ -13,6 +13,7 @@ qrcode  = "^7.4.1"
 transformers = "4.30.0"
 accelerate = "^0.20.0"
 PyYAML = "^6.0"
+xformers = "^0.0.20"
 
 
 [build-system]

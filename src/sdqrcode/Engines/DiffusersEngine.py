@@ -58,7 +58,7 @@ class DiffusersEngine(Engine.Engine):
 
         self.controlnet_units = []
         for name, unit in self.config["controlnet_units"].items():
-            cn_unit = ControlNetModel.from_pretrained(unit["model"])
+            cn_unit = ControlNetModel.from_pretrained(unit["model"], torch_dtype=torch.float16)
             self.controlnet_units.append(cn_unit)
             
         if self.config["global"]["mode"] == "txt2img":  
@@ -71,8 +71,10 @@ class DiffusersEngine(Engine.Engine):
             self.pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
+                torch_dtype=torch.float16
             )
         self.pipeline.enable_model_cpu_offload()
+        self.pipeline.enable_xformers_memory_efficient_attention()
 
 
     def generate_sd_qrcode(
