@@ -25,10 +25,9 @@ There is multiple methodes availables to generate ai qr code with differents con
 This repo aims to easily try and evaluate differents methods, models, params and share them with a simple config file 
 
 # Exemple
-(cherry picked, will add more results later)
-![Dalmatian qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/a33a7ae9-3842-4290-b5b2-0104f5339323)
+click to expand, cherry picked, will add more results later
 
-![Swimming pool girl qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305)
+| ![Dalmatian qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/a33a7ae9-3842-4290-b5b2-0104f5339323) | ![Swimming pool girl qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305) |
 
 # Install
 ```
