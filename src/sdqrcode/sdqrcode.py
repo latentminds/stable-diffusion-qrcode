@@ -60,37 +60,45 @@ class Sdqrcode:
 
     def generate_sd_qrcode(
         self,
+        qr_img: PIL.Image.Image = None,
         return_cn_imgs: bool = False,
         **config_kwargs,
     ) -> list[PIL.Image.Image]:
+        """
+        Args:
+            qr_img: PIL image of QR code, if None will generate a QR code from config
+            return_cn_imgs: Return the controlnet images
+        """
+
         self.config = update_config_dict(
             config=self.config,
             **config_kwargs,
         )
 
-        error_name_to_enum = {
-            "low": qrcode.constants.ERROR_CORRECT_L,
-            "medium": qrcode.constants.ERROR_CORRECT_M,
-            "quartile": qrcode.constants.ERROR_CORRECT_Q,
-            "high": qrcode.constants.ERROR_CORRECT_H,
-        }
+        if qr_img is None:
+            error_name_to_enum = {
+                "low": qrcode.constants.ERROR_CORRECT_L,
+                "medium": qrcode.constants.ERROR_CORRECT_M,
+                "quartile": qrcode.constants.ERROR_CORRECT_Q,
+                "high": qrcode.constants.ERROR_CORRECT_H,
+            }
 
-        qr_img = generate_qrcode_img(
-            error_correction=error_name_to_enum[
-                self.config["qrcode"]["error_correction"]
-            ],
-            box_size=self.config["qrcode"]["box_size"],
-            border=self.config["qrcode"]["border"],
-            fill_color=self.config["qrcode"]["fill_color"],
-            back_color=self.config["qrcode"]["back_color"],
-            text=self.config["qrcode"]["text"],
-        )
+            qr_img = generate_qrcode_img(
+                error_correction=error_name_to_enum[
+                    self.config["qrcode"]["error_correction"]
+                ],
+                box_size=self.config["qrcode"]["box_size"],
+                border=self.config["qrcode"]["border"],
+                fill_color=self.config["qrcode"]["fill_color"],
+                back_color=self.config["qrcode"]["back_color"],
+                text=self.config["qrcode"]["text"],
+            )
 
         sd_qr_img = self.engine.generate_sd_qrcode(qr_img)
         return sd_qr_img
 
 
-def get_config(config_name_or_path: str = "default") -> dict:
+def get_config(config_name_or_path: str = "default_diffusers") -> dict:
     if type(config_name_or_path) == type(dict()):
         return config_name_or_path
     if config_name_or_path in CONFIGS:
@@ -106,12 +114,14 @@ def get_config(config_name_or_path: str = "default") -> dict:
 def update_config_dict(
     config: dict,
     prompt: str = None,
+    negative_prompt: str = None,
     model_name_or_path: str = None,
     steps: int = None,
     cfg_scale: float = None,
     width: int = None,
     height: int = None,
     seed: int = None,
+    batch_size: int = None,
     controlnet_model_names: list[str] = None,
     controlnet_weights: list[float] = None,
     controlnet_startstops: list[tuple[int, int]] = None,
@@ -124,6 +134,8 @@ def update_config_dict(
 ):
     if prompt is not None:
         config["global"]["prompt"] = prompt
+    if negative_prompt is not None:
+        config["global"]["negative_prompt"] = negative_prompt
     if model_name_or_path is not None:
         config["global"]["model_name_or_path"] = model_name_or_path
     if steps is not None:
@@ -136,6 +148,8 @@ def update_config_dict(
         config["global"]["height"] = height
     if seed is not None:
         config["global"]["seed"] = seed
+    if batch_size is not None:
+        config["global"]["batch_size"] = batch_size
 
     if controlnet_model_names is not None:
         config["controlnet_units"] = {}

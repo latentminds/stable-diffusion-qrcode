@@ -51,12 +51,14 @@ class AutomaticEngine(Engine.Engine):
         r = self.api.txt2img(
             seed=self.config["global"]["seed"],
             prompt=self.config["global"]["prompt"],
+            negative_prompt=self.config["global"]["negative_prompt"],
             width=self.config["global"]["width"],
             height=self.config["global"]["height"],
             steps=self.config["global"]["steps"],
             sampler_name=self.config["global"]["sampler_name"],
             cfg_scale=self.config["global"]["cfg_scale"],
             controlnet_units=cn_units,
+            batch_size=self.config["global"]["batch_size"],
         )
         if return_cn_imgs:
             return r.images

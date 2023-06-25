@@ -87,6 +87,7 @@ class DiffusersEngine(Engine.Engine):
 
         r = self.pipeline(
             prompt=self.config["global"]["prompt"],
+            negative_prompt=self.config["global"]["negative_prompt"],
             width=self.config["global"]["width"],
             height=self.config["global"]["height"],
             num_inference_steps=self.config["global"]["steps"],
@@ -96,6 +97,7 @@ class DiffusersEngine(Engine.Engine):
             generator=torch.Generator(device="cuda").manual_seed(
                 self.config["global"]["seed"]
             ),
+            num_images_per_prompt=self.config["global"]["batch_size"],
         )
 
         return r.images

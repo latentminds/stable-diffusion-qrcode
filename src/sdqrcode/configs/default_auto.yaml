@@ -1,5 +1,6 @@
 global:
   prompt: "a beautiful minecraft landscape, lights and shadows"
+  negative_prompt: "ugly"
   model_name_or_path: "6ce0161689"
   steps: 20
   sampler_name: Euler a
@@ -7,6 +8,7 @@ global:
   width: 768
   height: 768
   seed: -1
+  batch_size: 1
 
 controlnet_units:
   brightness:
