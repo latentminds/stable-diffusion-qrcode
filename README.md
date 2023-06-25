@@ -57,7 +57,7 @@ images = generator.generate_sd_qrcode()
 
 # or with some custom parameters (you can't set the models at this stage)
 images = generator.generate_sd_qrcode(
-    prompt = "A beautiful minecraft landscape,
+    prompt = "A beautiful minecraft landscape",
     steps = 30,
     cfg_scale = 7 ,
     width = 768,
