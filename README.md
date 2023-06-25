@@ -136,7 +136,9 @@ Here are my firsts thoughts:
 * You can play with CN tile parameters to get an image more or less "grid like"
 
 # Todos
-- [ ] allow to set the model in the config
+- [ ] allow to set the sampler (diffusers)
+- [ ] allow to set the seed (diffusers)
+- [ ] allow to set the model in the config (auto)
 - [ ] add more configs
 - [x] allow to set the config without having the file in local path
 - [ ] more tests
