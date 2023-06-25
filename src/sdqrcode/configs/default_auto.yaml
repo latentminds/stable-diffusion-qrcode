@@ -3,7 +3,7 @@ global:
   negative_prompt: "ugly"
   model_name_or_path: "6ce0161689"
   steps: 20
-  sampler_name: Euler a
+  scheduler_name: Euler a
   cfg_scale: 7
   width: 768
   height: 768
