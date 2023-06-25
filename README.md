@@ -13,7 +13,7 @@ sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_d
 | Engine | Colab |
 |---|---|
 | Diffusers | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
-| Automatic1111 | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-difusion-qrcode/blob/master/colabs/demo_sdqrcode.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Automatic1111 | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_auto.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
 
 
 # Updates
@@ -91,7 +91,7 @@ images = generator.generate_sd_qrcode()
 ```
 # Config File
 
-This lib uses a yaml file to describe the qrcode generation process. Exemple:
+This lib uses a yaml file to describe the qrcode generation process. You can change any parameters to experiment. Exemple:
 ``` yaml
 global:
   prompt: "a beautiful minecraft landscape, lights and shadows"
@@ -106,14 +106,12 @@ global:
 controlnet_units:
   brightness:
     model: ioclab/control_v1p_sd15_brightness
-    #module: none not implemented yet
     weight: 0.35
     start: 0.0
     end: 1.0
 
   tile:
     model: lllyasviel/control_v11f1e_sd15_tile
-    #module: none not implemented yet
     weight: 0.5
     start: 0.35
     end: 0.70
@@ -126,6 +124,13 @@ qrcode:
   fill_color: black
   back_color: white
   ```
+You can change which controlnets are used by editing the controlnet_units part.
+- A unit starts with a key (ex: brightness, tile), that is used for better readability and does not impact the generation
+- model is the controlnet model name or from local path to use
+- weight is the controlnet weight
+- start is when the controlnet unit starts applying (in fract of total steps)
+- end is when the controlnet unit stops applying (in fract of total steps)
+
 
 # Available configs:
 ## default
