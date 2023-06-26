@@ -1,7 +1,7 @@
 global:
   mode: txt2img
   prompt: a beautiful dalmatian portrait, front shot
-  negative_prompt: ugly
+  negative_prompt: ""
   model_name_or_path: 6ce0161689
   steps: 20
   scheduler_name: DPM++ 2M Karras
