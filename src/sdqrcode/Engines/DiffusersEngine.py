@@ -93,6 +93,10 @@ class DiffusersEngine(Engine.Engine):
             self.config["global"]["scheduler_name"],
             self.pipeline.scheduler.config,
         )
+        
+        seeded_generator = torch.Generator(device="cuda").manual_seed(
+            self.config["global"]["seed"]
+        ) if self.config["global"]["seed"] != -1 else None
 
         if self.config["global"]["mode"] == "txt2img":
             r = self.pipeline(
@@ -104,9 +108,7 @@ class DiffusersEngine(Engine.Engine):
                 image=controlnet_input_images,
                 controlnet_guidance=controlnet_startstops,
                 controlnet_conditioning_scale=controlnet_weights,
-                generator=torch.Generator(device="cuda").manual_seed(
-                    self.config["global"]["seed"]
-                ),
+                generator=seeded_generator,
                 num_images_per_prompt=self.config["global"]["batch_size"],
             )
         
@@ -121,9 +123,7 @@ class DiffusersEngine(Engine.Engine):
                 control_image=controlnet_input_images,
                 controlnet_guidance=controlnet_startstops,
                 controlnet_conditioning_scale=controlnet_weights,
-                generator=torch.Generator(device="cuda").manual_seed(
-                    self.config["global"]["seed"]
-                ),
+                generator=seeded_generator,
                 num_images_per_prompt=self.config["global"]["batch_size"],
             )
 
