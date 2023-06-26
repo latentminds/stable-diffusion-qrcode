@@ -10,10 +10,10 @@ call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC111
 import sdqrcode
 sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_diffusers")
 ```
-| Engine | Colab |
-|---|---|
-| Diffusers | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
-| Automatic1111 | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_auto.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Engine        | Colab                                                                                                                                                                                                                                              |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Diffusers     | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_diffusers.ipynb"> <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> |
+| Automatic1111 | <a target="_blank" href="https://colab.research.google.com/github/koll-ai/stable-diffusion-qrcode/blob/master/colabs/demo_sdqrcode_auto.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>       |
 
 
 # Updates
@@ -28,7 +28,7 @@ This repo aims to easily try and evaluate differents methods, models, params and
 click to expand, cherry picked, will add more results later
 
 | ![Dalmatian qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/a33a7ae9-3842-4290-b5b2-0104f5339323) | ![Swimming pool girl qrcode](https://github.com/koll-ai/stable-difusion-qrcode/assets/22277706/435d4a3c-5eca-498e-a8bd-47d2658e6305) |
-|---|---|
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 
 # Install
 ```
@@ -89,29 +89,50 @@ generator = sdqrcode.init(
 # Then you can generate like the diffusers version
 images = generator.generate_sd_qrcode()
 ```
+```python
+# get available models
+generator.engine.api.util_get_model_names()
+
+# get available controlnet modules
+generator.engine.api.controlnet_module_list()
+
+# get available controlnet models
+generator.engine.api.controlnet_model_list()
+
+```
 # Config File
 
 This lib uses a yaml file to describe the qrcode generation process. You can change any parameters to experiment. Exemple:
 ``` yaml
 global:
+  mode: txt2img
   prompt: "a beautiful minecraft landscape, lights and shadows"
+  negative_prompt: "ugly"
   model_name_or_path: "SG161222/Realistic_Vision_V2.0"
   steps: 20
-  # sampler_name: Euler a not implemented yet
+  scheduler_name: Euler a
   cfg_scale: 7
   width: 768
   height: 768
   seed: -1
+  batch_size: 1
+  input_image: qrcode # img2img mode only
+  denoising_strength: 0.7 # img2img mode only
+
 
 controlnet_units:
   brightness:
     model: ioclab/control_v1p_sd15_brightness
+    cn_input_image: qrcode
+    module: none #not implemented yet for diffusers
     weight: 0.35
     start: 0.0
     end: 1.0
 
   tile:
     model: lllyasviel/control_v11f1e_sd15_tile
+    module: none #not implemented yet for diffusers
+    cn_input_image: qrcode
     weight: 0.5
     start: 0.35
     end: 0.70
@@ -124,12 +145,46 @@ qrcode:
   fill_color: black
   back_color: white
   ```
-You can change which controlnets are used by editing the controlnet_units part.
-- A unit starts with a key (ex: brightness, tile), that is used for better readability and does not impact the generation
-- model is the controlnet model name or from local path to use
-- weight is the controlnet weight
-- start is when the controlnet unit starts applying (in fract of total steps)
-- end is when the controlnet unit stops applying (in fract of total steps)
+
+* **global**
+  * ``mode``: txt2img or img2img (str)
+  * ``prompt``: the prompt to use (str)
+  * ``negative_prompt``: the negative prompt to use (str)
+  * ``model_name_or_path``: stable diffusion checkpoint to use (str)
+    * for diffusers, you can use the model name or local path
+    * for automatic1111, not implemented yet, it will use the current webui checkpoint
+  * ``steps``: the number of steps (int)
+  * ``scheduler_name``: the scheduler to use (str)
+  * ``cfg_scale``: the cfg scale (float)
+  * ``width``: the width of the output image (int)
+  * ``height``: the height of the output image (int)
+  * ``seed``: the seed to use, -1 for random (int)
+  * ``batch_size``: the batch size (int)
+  * ``input_image``: local path or url of the input image, img2img only (str)
+  * ``denoising_strength``: the denoising strength, img2img only (float)
+  
+  
+* **controlnet_units**: the controlnet units to use The unit name (tile, brightness, in above exemple) is used for better readability and does not impact the generation
+  * ``model``: the controlnet model to use (str)
+    * for diffusers, you can use the model name or local path
+    * for automatic1111, you should choose from the available webui controlnet models
+  * ``module``: the controlnet module to use (str)
+    * for diffusers, not available yet
+    * for automatic1111, you should choose from the available webui controlnet modules
+  * ``cn_input_image``: (str) can be
+    * path or url of the input image to use for the controlnet 
+    * ``qrcode`` to use the qrcode as input image
+  * ``weight``: the weight of the controlnet (float)
+  * ``start``: when the controlnet starts applying, in fract of total steps (ex: 0.35 means "start after 35% of total steps are done") (float)
+  * ``end``: when the controlnet stops applying, in fract of total steps (ex: 0.7 means "end after 70% of total steps are done") (float)
+
+* **qrcode**: the qrcode parameters
+  * ``text``: the text to encode (str)
+  * ``error_correction``: the error correction level (str)
+  * ``box_size``: the box size (int)
+  * ``border``: the border size (int)
+  * ``fill_color``: the fill color (str)
+  * ``back_color``: the back color (str)
 
 
 # Available configs:
@@ -141,7 +196,8 @@ Here are my firsts thoughts:
 * You can play with CN tile parameters to get an image more or less "grid like"
 
 # Todos
-- [ ] allow to set the sampler (diffusers)
+- [ ] add img2img for diffusers 
+- [x] allow to set the sampler (diffusers)
 - [ ] allow to set the seed (diffusers)
 - [ ] allow to set the model in the config (auto)
 - [ ] add more configs
@@ -150,6 +206,7 @@ Here are my firsts thoughts:
 - [ ] try to install the webui in demo colab
 - [x] add diffusers backend
 - [ ] add docs
+- [ ] allow to change models
 
 # Contrib
 Please don't hesitate to submit a PR to improve the code or submit a config
