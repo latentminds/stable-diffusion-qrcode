@@ -1,8 +1,8 @@
 global:
   mode: txt2img
-  prompt: "a beautiful minecraft landscape, lights and shadows"
-  negative_prompt: "ugly"
-  model_name_or_path: "6ce0161689"
+  prompt: a beautiful dalmatian portrait, front shot
+  negative_prompt: ugly
+  model_name_or_path: 6ce0161689
   steps: 20
   scheduler_name: Euler a
   cfg_scale: 7
@@ -29,7 +29,7 @@ controlnet_units:
     end: 0.70
 
 qrcode:
-  text: "https://koll.ai"
+  text: https://koll.ai
   error_correction: high # [low, medium, quart, high]
   box_size: 10
   border: 4
