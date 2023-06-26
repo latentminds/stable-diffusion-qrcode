@@ -146,7 +146,8 @@ qrcode:
   back_color: white
   ```
 
-* **global**
+
+* **``global``**
   * ``mode``: txt2img or img2img (str)
   * ``prompt``: the prompt to use (str)
   * ``negative_prompt``: the negative prompt to use (str)
@@ -155,16 +156,17 @@ qrcode:
     * for automatic1111, not implemented yet, it will use the current webui checkpoint
   * ``steps``: the number of steps (int)
   * ``scheduler_name``: the scheduler to use (str)
+    * ``DDIM``, ``Euler``, ``Euler a``, ``LMS``, ``DPM2 Karras``, ``DPM2 a Karras``, ``Heun``, ``DDPM``, ``UniPC``, ``PNDM``, ``DEI``, ``DPM++ SDE``, ``DPM++ 2S a``, ``DPM++ 2M``, ``DPM++ SDE Karras``, ``DPM++ 2S a Karras``, ``DPM++ 2M Karras``
   * ``cfg_scale``: the cfg scale (float)
   * ``width``: the width of the output image (int)
   * ``height``: the height of the output image (int)
   * ``seed``: the seed to use, -1 for random (int)
   * ``batch_size``: the batch size (int)
-  * ``input_image``: local path or url of the input image, img2img only (str)
+  * ``input_image``: local path or url of the input image, or ``qrcode`` img2img only (str)
   * ``denoising_strength``: the denoising strength, img2img only (float)
   
   
-* **controlnet_units**: the controlnet units to use The unit name (tile, brightness, in above exemple) is used for better readability and does not impact the generation
+* **``controlnet_units``**: the controlnet units to use The unit name (tile, brightness, in above exemple) is used for better readability and does not impact the generation
   * ``model``: the controlnet model to use (str)
     * for diffusers, you can use the model name or local path
     * for automatic1111, you should choose from the available webui controlnet models
@@ -178,7 +180,7 @@ qrcode:
   * ``start``: when the controlnet starts applying, in fract of total steps (ex: 0.35 means "start after 35% of total steps are done") (float)
   * ``end``: when the controlnet stops applying, in fract of total steps (ex: 0.7 means "end after 70% of total steps are done") (float)
 
-* **qrcode**: the qrcode parameters
+* **``qrcode``**: the qrcode parameters
   * ``text``: the text to encode (str)
   * ``error_correction``: the error correction level (str)
   * ``box_size``: the box size (int)
