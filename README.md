@@ -2,7 +2,7 @@
 # Stable Diffusion QR Code
 alpha version, expect breaking changes
 
-call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770)
+call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770) is released
 
 # tldr
 
@@ -22,7 +22,19 @@ sd_qr_images, generator = sdqrcode.init_and_generate_sd_qrcode(config="default_d
 
 # Motivation
 There is multiple methodes availables to generate ai qr code with differents controlnets models and params. Some parameters might works better with some stable diffusion checkpoints and it's a pain to find somethings that works consistanly.
-This repo aims to easily try and evaluate differents methods, models, params and share them with a simple config file 
+This repo aims to easily try and evaluate differents methods, models, params and share them with a simple config file
+
+# How it works
+The idea is to use controlnet to guide the generation: 
+- an image is generated  based on the prompt for a few steps
+- controlnet is activated for some steps to add the qrcode on the generating image
+- controlnet is deactivated to blend the qrcode and the image
+
+With this method, small modifications of the ``weight``, ``start`` and ``end`` parameters can have huge impacts on the generation.
+
+
+ 
+
 
 # Exemple
 click to expand, cherry picked, will add more results later
@@ -196,6 +208,18 @@ It uses [Controlnet Brightness](https://huggingface.co/ioclab/control_v1p_sd15_b
 Here are my firsts thoughts:
 * CN brightness should be left as is
 * You can play with CN tile parameters to get an image more or less "grid like"
+
+# Controlnet models
+There are multiple controlnet models that can be used:
+- [Controlnet Tile](https://huggingface.co/ControlNet-1-1-preview/control_v11f1e_sd15_tile): This CN takes an image as input and guide the generation toward this image and to increase the details. We can use a qr code as input.
+- Controlnet Brightness: 
+  - https://huggingface.co/ioclab/control_v1p_sd15_brightness
+  - https://huggingface.co/ViscoseBean/control_v1p_sd15_brightness
+- Controlnet QR code
+  - https://huggingface.co/DionTimmer/controlnet_qrcode-control_v1p_sd15
+  - https://huggingface.co/DionTimmer/controlnet_qrcode-control_v11p_sd21
+  - https://huggingface.co/models?search=qrcode
+
 
 # Todos
 - [ ] add img2img for diffusers 
