@@ -90,7 +90,7 @@ class DiffusersEngine(Engine.Engine):
         ]
         
         guidance_stops = [
-            unit["stop"] for unit in self.config["controlnet_units"].values()
+            unit["end"] for unit in self.config["controlnet_units"].values()
         ]
 
         self.pipeline.scheduler = get_scheduler(
