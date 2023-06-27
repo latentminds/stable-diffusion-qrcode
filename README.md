@@ -29,6 +29,7 @@ The idea is to use controlnet to guide the generation:
 - an image is generated  based on the prompt for a few steps
 - controlnet is activated for some steps to add the qrcode on the generating image
 - controlnet is deactivated to blend the qrcode and the image
+
 With this method, small modifications of the ``weight``, ``start`` and ``end`` parameters can have huge impacts on the generation.
 
 
