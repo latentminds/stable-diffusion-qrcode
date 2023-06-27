@@ -84,9 +84,13 @@ class DiffusersEngine(Engine.Engine):
         controlnet_weights = [
             unit["weight"] for unit in self.config["controlnet_units"].values()
         ]
-        controlnet_startstops = [
-            (unit["start"], unit["end"])
-            for unit in self.config["controlnet_units"].values()
+        
+        guidance_starts = [
+            unit["guidance_start"] for unit in self.config["controlnet_units"].values()
+        ]
+        
+        guidance_stops = [
+            unit["guidance_stop"] for unit in self.config["controlnet_units"].values()
         ]
 
         self.pipeline.scheduler = get_scheduler(
@@ -100,16 +104,17 @@ class DiffusersEngine(Engine.Engine):
 
         if self.config["global"]["mode"] == "txt2img":
             r = self.pipeline(
+                generator=seeded_generator,
                 prompt=self.config["global"]["prompt"],
                 negative_prompt=self.config["global"]["negative_prompt"],
                 width=self.config["global"]["width"],
                 height=self.config["global"]["height"],
                 num_inference_steps=self.config["global"]["steps"],
                 image=controlnet_input_images,
-                controlnet_guidance=controlnet_startstops,
                 controlnet_conditioning_scale=controlnet_weights,
-                generator=seeded_generator,
                 num_images_per_prompt=self.config["global"]["batch_size"],
+                control_guidance_start=guidance_starts,
+                control_guidance_end=guidance_stops,
             )
         
         if self.config["global"]["mode"] == "img2img":
@@ -121,9 +126,11 @@ class DiffusersEngine(Engine.Engine):
                 height=self.config["global"]["height"],
                 num_inference_steps=self.config["global"]["steps"],
                 control_image=controlnet_input_images,
-                controlnet_guidance=controlnet_startstops,
                 controlnet_conditioning_scale=controlnet_weights,
                 generator=seeded_generator,
+                control_guidance_start=guidance_starts,
+                control_guidance_end=guidance_stops,
+
                 num_images_per_prompt=self.config["global"]["batch_size"],
             )
 
