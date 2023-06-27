@@ -72,8 +72,8 @@ class DiffusersEngine(Engine.Engine):
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
             )
-        self.pipeline = self.pipeline.to("cuda")
         self.pipeline.enable_xformers_memory_efficient_attention()
+        self.pipeline = self.pipeline.to("cuda")
 
 
     def generate_sd_qrcode(
