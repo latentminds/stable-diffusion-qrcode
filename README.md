@@ -2,7 +2,7 @@
 # Stable Diffusion QR Code
 alpha version, expect breaking changes
 
-call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes, will add a pure diffusers version once [this PR is completed](https://github.com/huggingface/diffusers/pull/3770) is released
+call diffusers pipeline or [Automatic1111 webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) api to generate qrcodes.
 
 # tldr
 
@@ -45,7 +45,7 @@ click to expand, cherry picked, will add more results later
 # Install
 ```
 pip install sdqrcode
-pip install git+https://github.com/holwech/diffusers # for controlnet start/stop, I'll update once the PR is merged
+pip install git+https://github.com/huggingface/diffusers
 ```
 # Usage Diffusers
 
