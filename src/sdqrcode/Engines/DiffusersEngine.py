@@ -86,11 +86,11 @@ class DiffusersEngine(Engine.Engine):
         ]
         
         guidance_starts = [
-            unit["guidance_start"] for unit in self.config["controlnet_units"].values()
+            unit["start"] for unit in self.config["controlnet_units"].values()
         ]
         
         guidance_stops = [
-            unit["guidance_stop"] for unit in self.config["controlnet_units"].values()
+            unit["stop"] for unit in self.config["controlnet_units"].values()
         ]
 
         self.pipeline.scheduler = get_scheduler(
