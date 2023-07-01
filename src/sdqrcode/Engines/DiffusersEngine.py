@@ -60,6 +60,8 @@ class DiffusersEngine(Engine.Engine):
         for name, unit in self.config["controlnet_units"].items():
             cn_unit = ControlNetModel.from_pretrained(unit["model"], torch_dtype=torch_dtype)
             self.controlnet_units.append(cn_unit)
+        if len(self.controlnet_units) == 1:
+            self.controlnet_units = self.controlnet_units[0]
             
         if self.config["global"]["mode"] == "txt2img":  
             self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
