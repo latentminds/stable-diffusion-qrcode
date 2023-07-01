@@ -104,6 +104,17 @@ class DiffusersEngine(Engine.Engine):
             self.config["global"]["seed"]
         ) if self.config["global"]["seed"] != -1 else None
 
+        
+        # fix bug when only one image is provided in the list
+        if len(controlnet_input_images) == 1:
+            controlnet_input_images = controlnet_input_images[0]
+        if len(controlnet_weights) == 1:
+            controlnet_weights = controlnet_weights[0]
+        if len(guidance_starts) == 1:
+            guidance_starts = guidance_starts[0]
+        if len(guidance_stops) == 1:
+            guidance_stops = guidance_stops[0]
+            
         if self.config["global"]["mode"] == "txt2img":
             r = self.pipeline(
                 generator=seeded_generator,
