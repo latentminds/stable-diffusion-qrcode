@@ -11,5 +11,6 @@ def init_engine(**engine_kwargs):
         from . import DiffusersEngine
 
         config = engine_kwargs["config"]
+        torch_dtype = engine_kwargs["torch_dtype"]
 
-        return DiffusersEngine.DiffusersEngine(config=config)
+        return DiffusersEngine.DiffusersEngine(config=config, torch_dtype=torch_dtype)

@@ -12,11 +12,12 @@ from typing import Union
 import torch
 
 CONFIGS = {
-    "default_auto":         Path(__file__).parent / "configs" / "default_auto.yaml",
-    "default_diffusers":    Path(__file__).parent / "configs" / "default_diffusers.yaml",
-    "brightness_auto":      Path(__file__).parent / "configs" / "brightness_auto.yaml",
-    "brightness_diffusers": Path(__file__).parent / "configs" / "brightness_diffusers.yaml",
-    # Add more configuration files as needed
+    "default_auto":           Path(__file__).parent / "configs" / "default_auto.yaml",
+    "default_diffusers":      Path(__file__).parent / "configs" / "default_diffusers.yaml",
+    "brightness_auto":        Path(__file__).parent / "configs" / "brightness_auto.yaml",
+    "brightness_diffusers":   Path(__file__).parent / "configs" / "brightness_diffusers.yaml",
+    "img2img_tile_auto":      Path(__file__).parent / "configs" / "img2img_tile_auto.yaml",
+    "img2img_tile_diffusers": Path(__file__).parent / "configs" / "img2img_tile_diffusers.yaml",
 }
 
 
