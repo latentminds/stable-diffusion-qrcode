@@ -249,6 +249,7 @@ def init(
     auto_api_https: bool = None,
     auto_api_username: str = None,
     auto_api_password: str = None,
+    torch_dtype: torch.dtype = torch.float32,
     **config_kwargs,
 ):
     """
@@ -284,6 +285,8 @@ def init(
         auto_api_https=auto_api_https,
         auto_api_username=auto_api_username,
         auto_api_password=auto_api_password,
+        torch_dtype=torch_dtype,
+        
     )
 
 
@@ -294,6 +297,7 @@ def init_and_generate_sd_qrcode(
     auto_api_https: bool = True,
     auto_api_username: str = "",
     auto_api_password: str = "",
+    torch_dtype: torch.dtype = torch.float32,
     **config_kwargs,
 ) -> tuple[PIL.Image.Image, Sdqrcode]:
     # check if variables are set in env
@@ -326,6 +330,7 @@ def init_and_generate_sd_qrcode(
         auto_api_https=auto_api_https,
         auto_api_username=auto_api_username,
         auto_api_password=auto_api_password,
+        torch_dtype=torch_dtype,
         **config_kwargs,
     )
 
