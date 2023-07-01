@@ -236,3 +236,9 @@ There are multiple controlnet models that can be used:
 
 # Contrib
 Please don't hesitate to submit a PR to improve the code or submit a config
+
+# Other projects
+You can checkout [our website](https://koll.ai) to discover more of our projects such as:
+- [Seg2Sat](https://huggingface.co/spaces/rgres/Seg2Sat): Controlnet model to generate aerial pictures 
+- [PoetGPT](https://poetgpt.koll.ai): generate beautiful poems and lyrics with AI 
+- [ThisSCPDoesNotExist](https://thisscpdoesnotexist.ml/): generate custom SCP entities
