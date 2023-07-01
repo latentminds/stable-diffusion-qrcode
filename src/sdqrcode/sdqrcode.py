@@ -9,10 +9,13 @@ import requests
 from io import BytesIO
 import sdqrcode.Engines.engine_util as engine_util
 from typing import Union
+import torch
 
 CONFIGS = {
-    "default_auto": Path(__file__).parent / "configs" / "default_auto.yaml",
-    "default_diffusers": Path(__file__).parent / "configs" / "default_diffusers.yaml",
+    "default_auto":         Path(__file__).parent / "configs" / "default_auto.yaml",
+    "default_diffusers":    Path(__file__).parent / "configs" / "default_diffusers.yaml",
+    "brightness_auto":      Path(__file__).parent / "configs" / "brightness_auto.yaml",
+    "brightness_diffusers": Path(__file__).parent / "configs" / "brightness_diffusers.yaml",
     # Add more configuration files as needed
 }
 
@@ -32,6 +35,7 @@ class Sdqrcode:
         auto_api_https: bool = None,
         auto_api_username: str = None,
         auto_api_password: str = None,
+        torch_dtype: torch.dtype = torch.float32,
     ):
         """
         Args:
@@ -43,6 +47,7 @@ class Sdqrcode:
             auto_api_https: Use HTTPS for the Automatic1111 server
             auto_api_username: Username for the Automatic1111 server (if any)
             auto_api_password: Password for the Automatic1111 server (if any)
+            torch_dtype: (only diffusers) Torch dtype to use for the model (default: torch.float32)
         """
 
         # Load backend
@@ -59,6 +64,7 @@ class Sdqrcode:
             username=auto_api_username,
             password=auto_api_password,
             config=self.config,
+            torch_dtype=torch_dtype,
         )
 
     def generate_sd_qrcode(

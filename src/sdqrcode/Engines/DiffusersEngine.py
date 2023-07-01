@@ -53,24 +53,26 @@ from diffusers.schedulers.scheduling_pndm import PNDMScheduler
 
 
 class DiffusersEngine(Engine.Engine):
-    def __init__(self, config):
+    def __init__(self, config, torch_dtype):
         super().__init__(config)
 
         self.controlnet_units = []
         for name, unit in self.config["controlnet_units"].items():
-            cn_unit = ControlNetModel.from_pretrained(unit["model"])
+            cn_unit = ControlNetModel.from_pretrained(unit["model"], torch_dtype=torch_dtype)
             self.controlnet_units.append(cn_unit)
             
         if self.config["global"]["mode"] == "txt2img":  
             self.pipeline = StableDiffusionControlNetPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
+                torch_dtype=torch_dtype,
             )
         
         if self.config["global"]["mode"] == "img2img":
             self.pipeline = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
                 self.config["global"]["model_name_or_path"],
                 controlnet=self.controlnet_units,
+                torch_dtype=torch_dtype,
             )
         self.pipeline.enable_xformers_memory_efficient_attention()
         self.pipeline = self.pipeline.to("cuda")
