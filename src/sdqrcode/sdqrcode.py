@@ -9,7 +9,11 @@ import requests
 from io import BytesIO
 import sdqrcode.Engines.engine_util as engine_util
 from typing import Union
-import torch
+
+try:
+    import torch
+except:
+    pass
 
 CONFIGS = {
     "default_auto":           Path(__file__).parent / "configs" / "default_auto.yaml",
@@ -36,7 +40,7 @@ class Sdqrcode:
         auto_api_https: bool = None,
         auto_api_username: str = None,
         auto_api_password: str = None,
-        torch_dtype: torch.dtype = torch.float32,
+        torch_dtype = None,
     ):
         """
         Args:
@@ -249,7 +253,7 @@ def init(
     auto_api_https: bool = None,
     auto_api_username: str = None,
     auto_api_password: str = None,
-    torch_dtype: torch.dtype = torch.float32,
+    torch_dtype = None,
     **config_kwargs,
 ):
     """
@@ -297,7 +301,7 @@ def init_and_generate_sd_qrcode(
     auto_api_https: bool = True,
     auto_api_username: str = "",
     auto_api_password: str = "",
-    torch_dtype: torch.dtype = torch.float32,
+    torch_dtype = None,
     **config_kwargs,
 ) -> tuple[PIL.Image.Image, Sdqrcode]:
     # check if variables are set in env

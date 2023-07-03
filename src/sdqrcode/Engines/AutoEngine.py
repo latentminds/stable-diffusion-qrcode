@@ -43,7 +43,8 @@ class AutomaticEngine(Engine.Engine):
         
         # set the model
         self.api.util_set_model(self.config["global"]["model_name_or_path"])
-        
+        print("model set")
+
         # define controlnet units
         cn_units = []
         for cn_input_img, (name, unit) in zip(
