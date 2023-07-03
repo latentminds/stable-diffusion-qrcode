@@ -5,6 +5,9 @@ def init_engine(**engine_kwargs):
         and engine_kwargs["hostname"] != ""
     ):
         from . import AutoEngine
+        
+        if "torch_dtype" in engine_kwargs:
+            del engine_kwargs["torch_dtype"]
 
         return AutoEngine.AutomaticEngine(**engine_kwargs)
     else:
