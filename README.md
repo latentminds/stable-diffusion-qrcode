@@ -48,7 +48,7 @@ pip install sdqrcode # Automatic1111 engine
 #or
 pip install sdqrcode[diffusers] # Diffusers engine
 
-pip install git+https://github.com/huggingface/diffusers
+pip install git+https://github.com/huggingface/diffusers # require dev version of diffusers
 ```
 # Usage Diffusers
 
