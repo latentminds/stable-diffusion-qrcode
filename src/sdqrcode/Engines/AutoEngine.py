@@ -40,6 +40,11 @@ class AutomaticEngine(Engine.Engine):
         controlnet_input_images: PIL.Image.Image = None,
         return_cn_imgs=False,
     ) -> PIL.Image.Image:
+        
+        # set the model
+        self.api.util_set_model(self.config["global"]["model_name_or_path"])
+        
+        # define controlnet units
         cn_units = []
         for cn_input_img, (name, unit) in zip(
             controlnet_input_images, self.config["controlnet_units"].items()

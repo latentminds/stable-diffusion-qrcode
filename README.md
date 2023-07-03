@@ -115,6 +115,13 @@ generator.engine.api.controlnet_module_list()
 generator.engine.api.controlnet_model_list()
 
 ```
+
+# Get default configs
+```python
+import sdqrcode
+sdqrcode.CONFIGS()
+```
+
 # Config File
 
 This lib uses a yaml file to describe the qrcode generation process. You can change any parameters to experiment. Exemple:
