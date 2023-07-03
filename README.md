@@ -175,7 +175,7 @@ qrcode:
   * ``negative_prompt``: the negative prompt to use (str)
   * ``model_name_or_path``: stable diffusion checkpoint to use (str)
     * for diffusers, you can use the model name or local path
-    * for automatic1111, not implemented yet, it will use the current webui checkpoint
+    * for automatic1111, you should use one of the installed models (see utils methods above to get the list)
   * ``steps``: the number of steps (int)
   * ``scheduler_name``: the scheduler to use (str)
     * ``DDIM``, ``Euler``, ``Euler a``, ``LMS``, ``DPM2 Karras``, ``DPM2 a Karras``, ``Heun``, ``DDPM``, ``UniPC``, ``PNDM``, ``DEI``, ``DPM++ SDE``, ``DPM++ 2S a``, ``DPM++ 2M``, ``DPM++ SDE Karras``, ``DPM++ 2S a Karras``, ``DPM++ 2M Karras``
