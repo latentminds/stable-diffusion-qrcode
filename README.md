@@ -44,7 +44,10 @@ click to expand, cherry picked, will add more results later
 
 # Install
 ```
-pip install sdqrcode
+pip install sdqrcode # Automatic1111 engine
+#or
+pip install sdqrcode[diffusers] # Diffusers engine
+
 pip install git+https://github.com/huggingface/diffusers
 ```
 # Usage Diffusers
