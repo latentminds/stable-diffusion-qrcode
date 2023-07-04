@@ -20,14 +20,6 @@ controlnet_units:
     start: 0.0
     end: 1.0
 
-  tile:
-    model: control_v11f1e_sd15_tile [a371b31b]
-    cn_input_image: qrcode
-    module: none
-    weight: 0.5
-    start: 0.35
-    end: 0.70
-
 qrcode:
   text: https://koll.ai
   error_correction: high # [low, medium, quart, high]
